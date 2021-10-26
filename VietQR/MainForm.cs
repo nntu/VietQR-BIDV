@@ -1,4 +1,7 @@
 ﻿using iText.Forms;
+using iText.IO.Font;
+using iText.IO.Font.Constants;
+using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using NLog;
 using NPOI.SS.UserModel;
@@ -183,15 +186,18 @@ namespace VietQR
             });
             var ls = (List<Data_Excel>)dataGridView1.DataSource;
             toolStripProgressBar1.Maximum = ls.Count();
+
             await Task.Run(() => GetVietQR(progress, ls));
+
+
+
             OpenExplorer(pdffolder);
             toolStripProgressBar1.Visible = false;
-
         }
 
         private async void GetVietQR(IProgress<int> progress, List<Data_Excel> ds ) {
 
-            var vietqr = new VietQRApi(_cf.IsProxy, _cf.ProxyServer, _cf.proxyport, _cf.UserName, _cf.Password);
+            var vietqr = new VietQRApi();
             
             var j = 1;
             foreach (var i in ds) {
@@ -221,6 +227,11 @@ namespace VietQR
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
 
 
+                PdfFont pdfFont = PdfFontFactory.CreateFont("palab.ttf", PdfEncodings.IDENTITY_H);
+
+                pdfDoc.AddFont(pdfFont);
+
+
                 PdfPage page = pdfDoc.GetFirstPage();
 
 
@@ -231,7 +242,7 @@ namespace VietQR
                 var imageStr = Convert.ToBase64String(byteArray);
                 formc.GetField("Image2_af_image").SetValue(imageStr);
 
-                formc.GetField("tieu_de").SetValue(i.Tieu_De);
+                formc.GetField("tieu_de").SetValue(i.Tieu_De, pdfFont,14);
 
                 formc.FlattenFields();
 
