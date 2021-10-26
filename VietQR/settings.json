@@ -1,8 +1,8 @@
 {
     "isproxy": true,
-    "ProxyServer": "proxy.bidv.com.vn",
+    "ProxyServer": "",
     "proxyport": 8080,
-    "userName": "bidvbank\\tunn1",
-    "password": "mickey@1986"
+    "userName": "",
+    "password": ""
 
 }
