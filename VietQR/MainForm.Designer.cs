@@ -183,6 +183,7 @@ namespace VietQR
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.toolStripProgressBar1.Visible = false;
             // 
             // MainForm
             // 

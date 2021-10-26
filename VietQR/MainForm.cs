@@ -56,10 +56,12 @@ namespace VietQR
         }
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            var timestamp = DateTime.Now.ToFileTime();
             FileInfo fi = new FileInfo(@"template.xlsx");
-            fi.CopyTo(tempfolder + @"\template_temp.xlsx", true);
+            var filetemp = string.Format("{0}\\template_{1}.xlsx", tempfolder, timestamp);
+            fi.CopyTo(filetemp, true);
             Process process = new Process();
-            process.StartInfo.FileName = tempfolder + @"\template_temp.xlsx";
+            process.StartInfo.FileName = filetemp;
             process.Start();
         }
 
@@ -166,13 +168,13 @@ namespace VietQR
                 //First sheet
                 ISheet sheet = workbook.GetSheetAt(0);
                 toolStripProgressBar1.Maximum = sheet.LastRowNum;
-               var ls =  await Task.Run(() => LoadThongTinExcel(progress, sheet));
+                var ls =  await Task.Run(() => LoadThongTinExcel(progress, sheet));
 
                 dataGridView1.DataSource = ls;
 
             }
 
-            toolStripProgressBar1.Visible = false;
+           // toolStripProgressBar1.Visible = false;
         }
 
         private async void bt_xuatFilePdf_Click(object sender, EventArgs e)
@@ -191,8 +193,8 @@ namespace VietQR
 
 
 
-            OpenExplorer(pdffolder);
-            toolStripProgressBar1.Visible = false;
+
+           // toolStripProgressBar1.Visible = false;
         }
 
         private async void GetVietQR(IProgress<int> progress, List<Data_Excel> ds ) {
@@ -254,8 +256,9 @@ namespace VietQR
                 if (progress != null) progress.Report(j);
                 j++;
             }
-        
-        
+
+            OpenExplorer(pdffolder);
+         
         }
 
         private void tb_UpdateConfig_Click(object sender, EventArgs e)
