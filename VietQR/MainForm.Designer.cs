@@ -135,7 +135,7 @@ namespace VietQR
             // 
             // bt_xuatFilePdf
             // 
-            this.bt_xuatFilePdf.Location = new System.Drawing.Point(22, 164);
+            this.bt_xuatFilePdf.Location = new System.Drawing.Point(22, 145);
             this.bt_xuatFilePdf.Name = "bt_xuatFilePdf";
             this.bt_xuatFilePdf.Size = new System.Drawing.Size(113, 23);
             this.bt_xuatFilePdf.TabIndex = 2;

@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VietQR", "VietQR\VietQR.csproj", "{D9B66C95-1995-4CBF-AD9E-64BA707113BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRCodeTran", "QRCodeTran\QRCodeTran.csproj", "{36A1F3BA-B9D9-4C91-B55F-E7FE17BBCCEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D9B66C95-1995-4CBF-AD9E-64BA707113BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9B66C95-1995-4CBF-AD9E-64BA707113BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9B66C95-1995-4CBF-AD9E-64BA707113BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A1F3BA-B9D9-4C91-B55F-E7FE17BBCCEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A1F3BA-B9D9-4C91-B55F-E7FE17BBCCEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A1F3BA-B9D9-4C91-B55F-E7FE17BBCCEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A1F3BA-B9D9-4C91-B55F-E7FE17BBCCEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
