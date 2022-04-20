@@ -28,18 +28,21 @@ namespace QRCodeTran
             }
             else
             {
-                var chuoi = new KeyQRCode(sotk);
-                string chuoima = chuoi.toString();
+                //var chuoi = new KeyQRCode(sotk);
+                //string chuoima = chuoi.toString();
 
-                byte[] bytes = Encoding.ASCII.GetBytes(chuoima);
+                //byte[] bytes = Encoding.ASCII.GetBytes(chuoima);
 
-                CRCTool foo = new CRCTool();
-                var a = foo.CalcCRCITT(bytes);
-                string hexOutput = String.Format("{0:X}", a);
-                string chuoimahoacheck = chuoima + hexOutput;
+                //CRCTool foo = new CRCTool();
+                //var a = foo.CalcCRCITT(bytes);
+                //string hexOutput = String.Format("{0:X}", a);
+                //string chuoimahoacheck = chuoima + hexOutput;
+
+                var vietqr = viet_qr_generator.Generator.Generator_VietQR("BIDV", sotk ); 
+
 
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(chuoimahoacheck, QRCodeGenerator.ECCLevel.Q);
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
                 Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
                 

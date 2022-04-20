@@ -28,7 +28,7 @@ namespace QRCodeTran
 
 
             string result = "00020101021138570010A000000727012700069704180113{0}0208QRIBFTTA53037045802VN6304";
-            ;
+            ;                
             return string.Format(result, so_tk);
 
         }

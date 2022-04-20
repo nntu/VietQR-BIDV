@@ -21,5 +21,8 @@ namespace QRCodeTran.viet_qr_generator
 
         public string short_name { get;set; }
         public int? id { get; set; }
+        public bool isTransfer { get; set; }
+
+
     }
 }
