@@ -6,12 +6,16 @@ using iText.Kernel.Pdf;
 using NLog;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using QRCoder;
+using Svg;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,6 +23,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VietQRLib;
 
 namespace VietQR
 {
@@ -190,39 +195,69 @@ namespace VietQR
             toolStripProgressBar1.Maximum = ls.Count();
 
             await Task.Run(() => GetVietQR(progress, ls));
-
+            bt_xuatFilePdf.Visible = false;
 
 
 
            // toolStripProgressBar1.Visible = false;
         }
 
-        private async void GetVietQR(IProgress<int> progress, List<Data_Excel> ds ) {
+        private void GetVietQR(IProgress<int> progress, List<Data_Excel> ds)
+        {
 
-            var vietqr = new VietQRApi();
-            
+
+
             var j = 1;
-            foreach (var i in ds) {
-                var request = new VQR_Post()
+            foreach (var i in ds)
+            {
+
+                var vietqr = Generator.Generator_VietQR("BIDV", i.So_Tk);
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
+                ArtQRCode qrCode = new ArtQRCode(qrCodeData);
+                Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
+
+                var svgDoc = SvgDocument.Open("vietqr.svg");
+                var g = svgDoc.GetElementById("qrcode") as SvgImage;
+                g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);
+
+
+
+                Bitmap bitmap = svgDoc.Draw();//load the image file
+                PrivateFontCollection pfcoll = new PrivateFontCollection();
+                //put a font file under a Fonts directory within your application root
+                var fontName = "Roboto-Bold.ttf";
+                pfcoll.AddFontFile("fonts/" + fontName);
+                System.Drawing.FontFamily ff = pfcoll.Families[0];
+                using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
-                    accountName = i.HoTen,
-                    accountNo = i.So_Tk,
-                    acqId = "970418",
-                    format = "vietqr_net"
+                    using (Font RobotoFont = new Font(ff, 30, FontStyle.Bold, GraphicsUnit.Point))
+                    {
+                        Rectangle rect = new Rectangle(0, 1130, bitmap.Width - 10, 60);
 
-                };
+                        StringFormat sf = new StringFormat
+                        {
+                            LineAlignment = StringAlignment.Center,
+                            Alignment = StringAlignment.Center
+                        };
 
-                var rq = await vietqr.GetVietQR(request);
-                
-                var base64Data = Regex.Match(rq.data.qrDataURL, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                        graphics.DrawString("Số TK: " + i.So_Tk, RobotoFont, Brushes.Red, rect, sf);
 
-                var bytes = Convert.FromBase64String(base64Data);
-                var imagePath = vietqrfolder + '\\' + i.HoTen + "-" +  i.So_Tk + ".jpg";
-                using (var imageFile = new FileStream(imagePath, FileMode.Create))
-                {
-                    imageFile.Write(bytes, 0, bytes.Length);
-                    imageFile.Flush();
+                        rect = new Rectangle(0, 1190, bitmap.Width - 10, 60);
+
+                        graphics.DrawString("Tên TK: " + i.HoTen.ToUpper(), RobotoFont, Brushes.Red, rect, sf);
+
+                        //graphics.DrawRectangle(Pens.Green, rect);
+                    }
                 }
+                pictureBox1.Image = bitmap;
+                var imagePath = vietqrfolder + '\\' + i.So_Tk + ".jpg";
+
+                svgDoc.Write(vietqrfolder + '\\' + i.So_Tk + ".svg");
+
+                bitmap.Save(imagePath);
+
+
                 PdfReader reader = new PdfReader("mau.pdf");
                 var filepdf = pdffolder + '\\' + i.HoTen + "-" + i.So_Tk + ".pdf";
                 PdfWriter writer = new PdfWriter(filepdf);
@@ -230,20 +265,13 @@ namespace VietQR
 
 
                 PdfFont pdfFont = PdfFontFactory.CreateFont("palab.ttf", PdfEncodings.IDENTITY_H);
-
                 pdfDoc.AddFont(pdfFont);
-
-
                 PdfPage page = pdfDoc.GetFirstPage();
-
-
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
-
-                 
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
                 formc.GetField("Image2_af_image").SetValue(imageStr);
-                formc.GetField("tieu_de").SetValue(i.Tieu_De, pdfFont,14);
+                formc.GetField("tieu_de").SetValue(i.Tieu_De, pdfFont, 14);
                 formc.FlattenFields();
                 pdfDoc.Close();
                 writer.Close();
@@ -252,14 +280,109 @@ namespace VietQR
                 if (progress != null) progress.Report(j);
                 j++;
             }
-
+            bt_xuatFilePdf.Visible = true;
             OpenExplorer(pdffolder);
-         
+
         }
 
         private void tb_UpdateConfig_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void bt_taoma_Click(object sender, EventArgs e)
+        {
+            string sotk = tb_sotk.Text.Replace("-", "").Trim();
+            if (sotk.Length == 0)
+            {
+                MessageBox.Show("Chưa nhập số tk");
+
+            }
+            else
+            {
+
+
+                var vietqr = Generator.Generator_VietQR("BIDV", sotk);
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
+                ArtQRCode qrCode = new ArtQRCode(qrCodeData);
+                Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
+
+                var svgDoc = SvgDocument.Open("vietqr.svg");
+                var g = svgDoc.GetElementById("qrcode") as SvgImage;
+                g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);
+
+
+
+                Bitmap bitmap = svgDoc.Draw();//load the image file
+                PrivateFontCollection pfcoll = new PrivateFontCollection();
+                //put a font file under a Fonts directory within your application root
+                var fontName = "Roboto-Bold.ttf";
+                pfcoll.AddFontFile("fonts/" + fontName);
+                System.Drawing.FontFamily ff = pfcoll.Families[0];
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    using (Font RobotoFont = new Font(ff, 30, FontStyle.Bold, GraphicsUnit.Point))
+                    {
+                        Rectangle rect = new Rectangle(0, 1130, bitmap.Width - 10, 60);
+
+                        StringFormat sf = new StringFormat
+                        {
+                            LineAlignment = StringAlignment.Center,
+                            Alignment = StringAlignment.Center
+                        };
+
+                        graphics.DrawString("Số TK: " + sotk, RobotoFont, Brushes.Red, rect, sf);
+
+                        rect = new Rectangle(0, 1190, bitmap.Width - 10, 60);
+
+                        graphics.DrawString("Tên TK: " + tb_tenchutk.Text.ToUpper(), RobotoFont, Brushes.Red, rect, sf);
+
+                        //graphics.DrawRectangle(Pens.Green, rect);
+                    }
+                }
+                pictureBox1.Image = bitmap;
+                var imagePath = vietqrfolder + '\\' + sotk + ".jpg";
+
+                svgDoc.Write(vietqrfolder + '\\' + sotk + ".svg");         
+
+                bitmap.Save(imagePath);
+
+                PdfReader reader = new PdfReader("mau.pdf");
+                var filepdf = pdffolder + '\\' + tb_tenchutk.Text.ToUpper() + "-" + sotk + ".pdf";
+                PdfWriter writer = new PdfWriter(filepdf);
+                PdfDocument pdfDoc = new PdfDocument(reader, writer);
+
+
+                PdfFont pdfFont = PdfFontFactory.CreateFont("palab.ttf", PdfEncodings.IDENTITY_H);
+
+                pdfDoc.AddFont(pdfFont);
+                PdfPage page = pdfDoc.GetFirstPage();
+                PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
+                byte[] byteArray = File.ReadAllBytes(imagePath);
+                var imageStr = Convert.ToBase64String(byteArray);
+                formc.GetField("Image2_af_image").SetValue(imageStr);
+                formc.GetField("tieu_de").SetValue(tb_tieude.Text, pdfFont, 14);
+                formc.FlattenFields();
+                pdfDoc.Close();
+                writer.Close();
+
+                OpenExplorer(filepdf);
+
+            }
+        }
+        public string ImageToBase64(Image image, System.Drawing.Imaging.ImageFormat format)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Convert Image to byte[]
+                image.Save(ms, format);
+                byte[] imageBytes = ms.ToArray();
+
+                // Convert byte[] to base 64 string
+                string base64String = Convert.ToBase64String(imageBytes);
+                return base64String;
+            }
         }
     }
 }
