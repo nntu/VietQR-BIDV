@@ -86,8 +86,7 @@ namespace VietQRLib
         {
             if (json_banks == null)
             {
-                Assembly _assembly;
-                StreamReader _textStreamReader;
+                Assembly _assembly;           
 
                 _assembly = Assembly.GetExecutingAssembly();
                 string resourceName = _assembly.GetManifestResourceNames().Single(str => str.EndsWith("banks.json"));

@@ -17,15 +17,16 @@ namespace VietQR
         public string accountNo { get; set; }
         public string accountName { get; set; }
         public string acqId { get; set; }
- public string addInfo { get; set; }
+        public string addInfo { get; set; }
 
- public string amount { get; set; }
+        public string amount { get; set; }
         public string format { get; set; }
-       
+
 
     }
 
-    public class VQR_Response { 
+    public class VQR_Response
+    {
         public string code { get; set; }
         public string desc { get; set; }
 
@@ -33,8 +34,9 @@ namespace VietQR
 
     }
 
-    public class data_respones { 
-    
+    public class data_respones
+    {
+
         public string qrDataURL { get; set; }
         public string qrCode { get; set; }
 
@@ -48,22 +50,23 @@ namespace VietQR
 
         public VietQRApi()
         {
-          
-                client = new HttpClient();
-            
+
+            client = new HttpClient();
+
             client.BaseAddress = new Uri(urlapi);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-             
+
 
         }
 
-        public async Task<VQR_Response>  GetVietQR(VQR_Post post) {
+        public async Task<VQR_Response> GetVietQR(VQR_Post post)
+        {
             var content = new StringContent(
     JsonConvert.SerializeObject(post),
     Encoding.UTF8,
     "application/json");
-            var  response = await client.PostAsync("v1/generate", content);
+            var response = await client.PostAsync("v1/generate", content);
             if (response.IsSuccessStatusCode)
             {
 
@@ -74,11 +77,12 @@ namespace VietQR
                 //deserialize to your class
                 return myInstance;
             }
-            else {
+            else
+            {
                 return null;
             }
 
 
-            }
+        }
     }
 }
