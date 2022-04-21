@@ -42,9 +42,14 @@ namespace QRCodeTran
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
                 ArtQRCode qrCode = new ArtQRCode(qrCodeData);
-                
 
-                
+                SvgQRCode qrCodesvg = new SvgQRCode(qrCodeData);
+                string qrCodeAsSvg = qrCodesvg.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White);
+                string fileName = @"qr.svg";
+                StreamWriter writer = new StreamWriter(fileName);
+                writer.Write(qrCodeAsSvg);
+                writer.Close();
+
                 Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
                                 
 
