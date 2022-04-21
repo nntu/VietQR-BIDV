@@ -30,10 +30,10 @@ namespace VietQR
     public partial class MainForm : Form
     {
 
-        string tempfolder;
-        string vietqrfolder;
-        string pdffolder;
-
+        private string tempfolder;
+        private string vietqrfolder;
+        private string pdffolder;
+        private string temp_template_excel;
         private Config _cf;
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -63,10 +63,10 @@ namespace VietQR
         {
             var timestamp = DateTime.Now.ToFileTime();
             FileInfo fi = new FileInfo(@"template.xlsx");
-            var filetemp = string.Format("{0}\\template_{1}.xlsx", tempfolder, timestamp);
-            fi.CopyTo(filetemp, true);
+            temp_template_excel = string.Format("{0}\\template_{1}.xlsx", tempfolder, timestamp);
+            fi.CopyTo(temp_template_excel, true);
             Process process = new Process();
-            process.StartInfo.FileName = filetemp;
+            process.StartInfo.FileName = temp_template_excel;
             process.Start();
         }
 
@@ -110,7 +110,7 @@ namespace VietQR
                     for (int i = 1; i <= rowCount; i++)
                     {
                         IRow curRow = sheet.GetRow(i);
-                                           
+
                         // Works for consecutive data. Use continue otherwise
                         if (curRow == null)
                         {
@@ -127,18 +127,19 @@ namespace VietQR
                             var hoten = curRow.GetCell(2) == null ? "" : curRow.GetCell(2).StringCellValue.Trim();
                             var sotk = curRow.GetCell(3) == null ? "" : curRow.GetCell(3).StringCellValue.Trim();
 
-                            ds.Add(new Data_Excel() {
+                            ds.Add(new Data_Excel()
+                            {
                                 Tieu_De = tieude,
                                 HoTen = hoten,
                                 So_Tk = sotk,
                             });
                         }
-                        
+
                         if (progress != null) progress.Report(i);
                     }
                     //   _db.SetThongTinCB(dsttcb);
 
-                    
+
 
                 }
 
@@ -160,10 +161,11 @@ namespace VietQR
                 toolStripProgressBar1.Value = percent;
             });
 
-
+            openFileDialog1.FileName = temp_template_excel;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {//
              //
+
                 IWorkbook workbook;
 
                 FileStream fs = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read);
@@ -173,13 +175,13 @@ namespace VietQR
                 //First sheet
                 ISheet sheet = workbook.GetSheetAt(0);
                 toolStripProgressBar1.Maximum = sheet.LastRowNum;
-                var ls =  await Task.Run(() => LoadThongTinExcel(progress, sheet));
+                var ls = await Task.Run(() => LoadThongTinExcel(progress, sheet));
 
                 dataGridView1.DataSource = ls;
 
             }
 
-           // toolStripProgressBar1.Visible = false;
+            // toolStripProgressBar1.Visible = false;
         }
 
         private async void bt_xuatFilePdf_Click(object sender, EventArgs e)
@@ -195,11 +197,11 @@ namespace VietQR
             toolStripProgressBar1.Maximum = ls.Count();
 
             await Task.Run(() => GetVietQR(progress, ls));
-            bt_xuatFilePdf.Visible = false;
+            bt_xuatFilePdf.Enabled = false;
 
 
 
-           // toolStripProgressBar1.Visible = false;
+            // toolStripProgressBar1.Visible = false;
         }
 
         private void GetVietQR(IProgress<int> progress, List<Data_Excel> ds)
@@ -220,9 +222,6 @@ namespace VietQR
                 var svgDoc = SvgDocument.Open("vietqr.svg");
                 var g = svgDoc.GetElementById("qrcode") as SvgImage;
                 g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);
-
-
-
                 Bitmap bitmap = svgDoc.Draw();//load the image file
                 PrivateFontCollection pfcoll = new PrivateFontCollection();
                 //put a font file under a Fonts directory within your application root
@@ -264,7 +263,7 @@ namespace VietQR
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
 
 
-                PdfFont pdfFont = PdfFontFactory.CreateFont("palab.ttf", PdfEncodings.IDENTITY_H);
+                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
                 pdfDoc.AddFont(pdfFont);
                 PdfPage page = pdfDoc.GetFirstPage();
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
@@ -280,7 +279,7 @@ namespace VietQR
                 if (progress != null) progress.Report(j);
                 j++;
             }
-            bt_xuatFilePdf.Visible = true;
+            bt_xuatFilePdf.Enabled = true;
             OpenExplorer(pdffolder);
 
         }
@@ -292,6 +291,7 @@ namespace VietQR
 
         private void bt_taoma_Click(object sender, EventArgs e)
         {
+            bt_taoma.Enabled = false;
             string sotk = tb_sotk.Text.Replace("-", "").Trim();
             if (sotk.Length == 0)
             {
@@ -318,7 +318,7 @@ namespace VietQR
                 PrivateFontCollection pfcoll = new PrivateFontCollection();
                 //put a font file under a Fonts directory within your application root
                 var fontName = "Roboto-Bold.ttf";
-                pfcoll.AddFontFile("fonts/" + fontName);
+                pfcoll.AddFontFile("fonts\\" + fontName);
                 System.Drawing.FontFamily ff = pfcoll.Families[0];
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
@@ -344,7 +344,7 @@ namespace VietQR
                 pictureBox1.Image = bitmap;
                 var imagePath = vietqrfolder + '\\' + sotk + ".jpg";
 
-                svgDoc.Write(vietqrfolder + '\\' + sotk + ".svg");         
+                svgDoc.Write(vietqrfolder + '\\' + sotk + ".svg");
 
                 bitmap.Save(imagePath);
 
@@ -354,7 +354,7 @@ namespace VietQR
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
 
 
-                PdfFont pdfFont = PdfFontFactory.CreateFont("palab.ttf", PdfEncodings.IDENTITY_H);
+                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
 
                 pdfDoc.AddFont(pdfFont);
                 PdfPage page = pdfDoc.GetFirstPage();
@@ -368,7 +368,7 @@ namespace VietQR
                 writer.Close();
 
                 OpenExplorer(filepdf);
-
+                bt_taoma.Enabled = true;
             }
         }
         public string ImageToBase64(Image image, System.Drawing.Imaging.ImageFormat format)
