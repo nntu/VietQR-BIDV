@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VietQRLib;
 
 namespace QRCodeTran
 {
@@ -38,7 +39,7 @@ namespace QRCodeTran
                 //string hexOutput = String.Format("{0:X}", a);
                 //string chuoimahoacheck = chuoima + hexOutput;
 
-                var vietqr = viet_qr_generator.Generator.Generator_VietQR("BIDV", sotk ); 
+                var vietqr = Generator.Generator_VietQR("BIDV", sotk ); 
 
 
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
@@ -47,6 +48,7 @@ namespace QRCodeTran
                 Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
                 
                 pictureBox1.Image = qrCodeImage;
+               
 
             }
         }

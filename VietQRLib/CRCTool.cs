@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QRCodeTran
+namespace VietQRLib
 {
     /// <summary>
     /// Tool to calculate and add CRC codes to a string

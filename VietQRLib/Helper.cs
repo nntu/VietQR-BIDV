@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QRCodeTran.viet_qr_generator
+namespace VietQRLib
 {
     public class Helper
     {
@@ -85,7 +86,20 @@ namespace QRCodeTran.viet_qr_generator
         {
             if (json_banks == null)
             {
-                json_banks = JsonConvert.DeserializeObject<banks>(File.ReadAllText(@"banks.json"));
+                Assembly _assembly;
+                StreamReader _textStreamReader;
+
+                _assembly = Assembly.GetExecutingAssembly();
+                string resourceName = _assembly.GetManifestResourceNames().Single(str => str.EndsWith("banks.json"));
+                using (Stream stream = _assembly.GetManifestResourceStream(resourceName))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string result = reader.ReadToEnd();
+                    json_banks = JsonConvert.DeserializeObject<banks>(result);
+
+                }
+
+
 
 
             }

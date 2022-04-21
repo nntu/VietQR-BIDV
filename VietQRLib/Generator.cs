@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QRCodeTran.viet_qr_generator
+namespace VietQRLib
 {
     public static class Generator
     {

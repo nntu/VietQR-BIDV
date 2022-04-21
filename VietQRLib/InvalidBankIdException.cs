@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace QRCodeTran.viet_qr_generator
+namespace VietQRLib
 {
     [Serializable]
     internal class InvalidBankIdException : Exception
