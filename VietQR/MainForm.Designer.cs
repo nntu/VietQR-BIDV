@@ -29,7 +29,6 @@ namespace VietQR
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -38,7 +37,7 @@ namespace VietQR
             this.tieuDeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource();
             this.bt_xuatFilePdf = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.bt_LoadExcel = new System.Windows.Forms.Button();
@@ -135,7 +134,7 @@ namespace VietQR
             // 
             // bt_xuatFilePdf
             // 
-            this.bt_xuatFilePdf.Location = new System.Drawing.Point(22, 145);
+            this.bt_xuatFilePdf.Location = new System.Drawing.Point(22, 91);
             this.bt_xuatFilePdf.Name = "bt_xuatFilePdf";
             this.bt_xuatFilePdf.Size = new System.Drawing.Size(113, 23);
             this.bt_xuatFilePdf.TabIndex = 2;

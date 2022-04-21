@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,15 +34,7 @@ namespace QRCodeTran
             }
             else
             {
-                //var chuoi = new KeyQRCode(sotk);
-                //string chuoima = chuoi.toString();
-
-                //byte[] bytes = Encoding.ASCII.GetBytes(chuoima);
-
-                //CRCTool foo = new CRCTool();
-                //var a = foo.CalcCRCITT(bytes);
-                //string hexOutput = String.Format("{0:X}", a);
-                //string chuoimahoacheck = chuoima + hexOutput;
+              
 
                 var vietqr = Generator.Generator_VietQR("BIDV", sotk ); 
 
@@ -53,35 +46,41 @@ namespace QRCodeTran
 
                 
                 Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
+                                
 
-                
-
-                var svgDoc = SvgDocument.Open("vietqr.svg");
-                
+                var svgDoc = SvgDocument.Open("vietqr.svg");   
                 
 
                 var g = svgDoc.GetElementById("qrcode") as SvgImage;
-                g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);
+                g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);               
 
-                //  var hoten = svgDoc.GetElementById("hoten") as SvgText;
-                // hoten.Text = tb_tenchutk.Text;
-
-                Point firstLocation = new Point(194, 1160);
-                var firstText = "BIDV CAN THO";
+               
+                 
                 Bitmap bitmap = svgDoc.Draw();//load the image file
-
+                PrivateFontCollection pfcoll = new PrivateFontCollection();
+                //put a font file under a Fonts directory within your application root
+                var fontName = "Roboto-Bold.ttf";
+                pfcoll.AddFontFile("fonts/" + fontName);
+                FontFamily ff = pfcoll.Families[0];
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
-                    using (Font arialFont = new Font("Arial", 26, FontStyle.Bold, GraphicsUnit.Point))
+                    using (Font RobotoFont = new Font(ff, 30, FontStyle.Bold, GraphicsUnit.Point))
                     {
-                        Rectangle rect = new Rectangle(0, 1160, bitmap.Width - 10, bitmap.Height - 10);
+                        Rectangle rect = new Rectangle(0, 1130, bitmap.Width - 10,60);
 
-                        StringFormat sf = new StringFormat();
-                        sf.LineAlignment = StringAlignment.Center;
-                        sf.Alignment = StringAlignment.Center;
+                        StringFormat sf = new StringFormat
+                        {
+                            LineAlignment = StringAlignment.Center,
+                            Alignment = StringAlignment.Center
+                        };
 
-                        graphics.DrawString(firstText, arialFont, Brushes.Red, rect, sf);
-                        graphics.DrawRectangle(Pens.Green, rect);
+                        graphics.DrawString("Số TK: " + sotk, RobotoFont, Brushes.Red, rect, sf);
+
+                        rect = new Rectangle(0, 1190 , bitmap.Width - 10, 60);
+
+                        graphics.DrawString("Tên TK: "+ tb_tenchutk.Text, RobotoFont, Brushes.Red, rect, sf);
+
+                        //graphics.DrawRectangle(Pens.Green, rect);
                     }
                 }
                 pictureBox1.Image = bitmap;

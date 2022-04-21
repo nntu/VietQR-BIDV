@@ -243,12 +243,8 @@ namespace VietQR
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
                 formc.GetField("Image2_af_image").SetValue(imageStr);
-
                 formc.GetField("tieu_de").SetValue(i.Tieu_De, pdfFont,14);
-
                 formc.FlattenFields();
-
-
                 pdfDoc.Close();
                 writer.Close();
 
