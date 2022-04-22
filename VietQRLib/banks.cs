@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace VietQRLib
 {
+
+
     public class banks
     {
         public string no_banks { get; set; }
@@ -18,11 +20,11 @@ namespace VietQRLib
         public string name { get; set; }
         public string code { get; set; }
         public string bin { get; set; }
-
         public string short_name { get; set; }
         public int? id { get; set; }
         public bool isTransfer { get; set; }
 
-
     }
+
+    
 }
