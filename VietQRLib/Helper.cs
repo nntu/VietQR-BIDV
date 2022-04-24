@@ -1,18 +1,13 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VietQRLib
 {
     public class Helper
     {
-
         private static banks json_banks;
 
         public static string addField(string currentString, string code, string value)
@@ -22,10 +17,9 @@ namespace VietQRLib
             {
                 newValue = "";
             }
-            newValue = newValue + code +   value.Length.ToString("D2")  + value;
+            newValue = newValue + code + value.Length.ToString("D2") + value;
             return newValue;
         }
-
 
         public static string generateMerchantInfo(string bankId, string accountNo, bool isAccount)
         {
@@ -68,7 +62,6 @@ namespace VietQRLib
             {
                 return bin;
             }
-
         }
 
         public static string getNapasServiceCode(bool isCard)
@@ -82,11 +75,12 @@ namespace VietQRLib
                 return Constants.NAPAS_247_BY_ACCOUNT;
             }
         }
+
         public static banks loadDataBanks()
         {
             if (json_banks == null)
             {
-                Assembly _assembly;           
+                Assembly _assembly;
 
                 _assembly = Assembly.GetExecutingAssembly();
                 string resourceName = _assembly.GetManifestResourceNames().Single(str => str.EndsWith("banks.json"));
@@ -95,11 +89,9 @@ namespace VietQRLib
                 {
                     string result = reader.ReadToEnd();
                     json_banks = JsonConvert.DeserializeObject<banks>(result);
-
                 }
             }
             return json_banks;
         }
-
     }
 }
