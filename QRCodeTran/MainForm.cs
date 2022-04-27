@@ -48,42 +48,48 @@ namespace QRCodeTran
                 Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
                                 
 
-                var svgDoc = SvgDocument.Open("vietqr.svg");   
+                var svgDoc = SvgDocument.Open("vietqr.svg"); 
                 
 
                 var g = svgDoc.GetElementById("qrcode") as SvgImage;
-                g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);               
+                g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);
 
-               
-                 
-                Bitmap bitmap = svgDoc.Draw();//load the image file
-                PrivateFontCollection pfcoll = new PrivateFontCollection();
-                //put a font file under a Fonts directory within your application root
-                var fontName = "Roboto-Bold.ttf";
-                pfcoll.AddFontFile("fonts/" + fontName);
-                FontFamily ff = pfcoll.Families[0];
-                using (Graphics graphics = Graphics.FromImage(bitmap))
-                {
-                    using (Font RobotoFont = new Font(ff, 30, FontStyle.Bold, GraphicsUnit.Point))
-                    {
-                        Rectangle rect = new Rectangle(0, 1130, bitmap.Width - 10,60);
+                var asotk = svgDoc.GetElementById("sotk") as SvgTextSpan;
+                asotk.Text = "Số TK: " + sotk;
 
-                        StringFormat sf = new StringFormat
-                        {
-                            LineAlignment = StringAlignment.Center,
-                            Alignment = StringAlignment.Center
-                        };
+                var hotentk = svgDoc.GetElementById("hotentk") as SvgTextSpan;
+                hotentk.Text = "Tên TK: " + tb_tenchutk.Text.ToUpper();
 
-                        graphics.DrawString("Số TK: " + sotk, RobotoFont, Brushes.Red, rect, sf);
 
-                        rect = new Rectangle(0, 1190 , bitmap.Width - 10, 60);
 
-                        graphics.DrawString("Tên TK: "+ tb_tenchutk.Text, RobotoFont, Brushes.Red, rect, sf);
+                //Bitmap bitmap = svgDoc.Draw();//load the image file
+                //PrivateFontCollection pfcoll = new PrivateFontCollection();
+                ////put a font file under a Fonts directory within your application root
+                //var fontName = "Roboto-Bold.ttf";
+                //pfcoll.AddFontFile("fonts/" + fontName);
+                //FontFamily ff = pfcoll.Families[0];
+                //using (Graphics graphics = Graphics.FromImage(bitmap))
+                //{
+                //    using (Font RobotoFont = new Font(ff, 30, FontStyle.Bold, GraphicsUnit.Point))
+                //    {
+                //        Rectangle rect = new Rectangle(0, 1130, bitmap.Width - 10,60);
 
-                        //graphics.DrawRectangle(Pens.Green, rect);
-                    }
-                }
-                pictureBox1.Image = bitmap;
+                //        StringFormat sf = new StringFormat
+                //        {
+                //            LineAlignment = StringAlignment.Center,
+                //            Alignment = StringAlignment.Center
+                //        };
+
+                //        graphics.DrawString("Số TK: " + sotk, RobotoFont, Brushes.Red, rect, sf);
+
+                //        rect = new Rectangle(0, 1190 , bitmap.Width - 10, 60);
+
+                //        graphics.DrawString("Tên TK: "+ tb_tenchutk.Text, RobotoFont, Brushes.Red, rect, sf);
+
+                //        //graphics.DrawRectangle(Pens.Green, rect);
+                //    }
+                //}
+                pictureBox1.Image = svgDoc.Draw(); ;
 
 
 
@@ -91,7 +97,7 @@ namespace QRCodeTran
                 svgDoc.Write("result.svg");
                 ////30,66,126
                 //pictureBox1.Image = qrCodeImage;
-                bitmap.Save("result.jpg");
+                
             }
         }
 

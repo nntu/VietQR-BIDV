@@ -322,9 +322,9 @@ namespace VietQR
                 System.Drawing.FontFamily ff = pfcoll.Families[0];
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
-                    using (Font RobotoFont = new Font(ff, 30, FontStyle.Bold, GraphicsUnit.Point))
-                    {
-                        Rectangle rect = new Rectangle(0, 1130, bitmap.Width - 10, 60);
+                    Font RobotoFontTK = new Font(ff, 50, FontStyle.Bold, GraphicsUnit.Point);
+                     
+                        Rectangle rect = new Rectangle(0, 1110, bitmap.Width - 10, 70);
 
                         StringFormat sf = new StringFormat
                         {
@@ -332,21 +332,21 @@ namespace VietQR
                             Alignment = StringAlignment.Center
                         };
 
-                        graphics.DrawString("Số TK: " + sotk, RobotoFont, Brushes.Red, rect, sf);
+                        graphics.DrawString("Số TK: " + sotk, RobotoFontTK, Brushes.Red, rect, sf);
 
-                        rect = new Rectangle(0, 1190, bitmap.Width - 10, 60);
-
-                        graphics.DrawString("Tên TK: " + tb_tenchutk.Text.ToUpper(), RobotoFont, Brushes.Red, rect, sf);
+                        rect = new Rectangle(0, 1200, bitmap.Width - 10, 70);
+                    Font RobotoFontTENTK = new Font(ff, 40, FontStyle.Bold, GraphicsUnit.Point);
+                    graphics.DrawString("Tên TK: " + tb_tenchutk.Text.ToUpper(), RobotoFontTENTK, Brushes.Red, rect, sf);
 
                         //graphics.DrawRectangle(Pens.Green, rect);
-                    }
+                   
                 }
                 pictureBox1.Image = bitmap;
-                var imagePath = vietqrfolder + '\\' + sotk + ".jpg";
+                var imagePath = vietqrfolder + '\\' + sotk + ".png";
 
-                svgDoc.Write(vietqrfolder + '\\' + sotk + ".svg");         
+                //svgDoc.Write(vietqrfolder + '\\' + sotk + ".svg");         
 
-                bitmap.Save(imagePath);
+                bitmap.Save(imagePath,ImageFormat.Png);
 
                 PdfReader reader = new PdfReader("mau.pdf");
                 var filepdf = pdffolder + '\\' + tb_tenchutk.Text.ToUpper() + "-" + sotk + ".pdf";
