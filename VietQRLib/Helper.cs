@@ -97,10 +97,6 @@ namespace VietQRLib
                     json_banks = JsonConvert.DeserializeObject<banks>(result);
 
                 }
-
-
-
-
             }
             return json_banks;
         }

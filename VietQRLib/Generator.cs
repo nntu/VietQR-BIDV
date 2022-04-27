@@ -45,7 +45,6 @@ namespace VietQRLib
             stringToGenerate = Helper.addField(stringToGenerate, VietQRField.CURRENCY_CODE, "704");
             if (amount != 0)
             {
-
                 // Add amount
                 stringToGenerate = Helper.addField(stringToGenerate, VietQRField.TRANSACTION_AMOUNT, amount.ToString());
             }
