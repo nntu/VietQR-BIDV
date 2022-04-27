@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -42,9 +43,9 @@
             this.tb_tieude = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.bt_xuatFilePdf = new System.Windows.Forms.Button();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lb_laytemplate = new System.Windows.Forms.LinkLabel();
             this.bt_LoadExcel = new System.Windows.Forms.Button();
-            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource();
+            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -159,6 +160,7 @@
             this.bt_taoma.TabIndex = 3;
             this.bt_taoma.Text = "Tạo QRCode";
             this.bt_taoma.UseVisualStyleBackColor = true;
+            this.bt_taoma.Click += new System.EventHandler(this.bt_taoma_Click);
             // 
             // label3
             // 
@@ -190,15 +192,16 @@
             this.bt_xuatFilePdf.Text = "Xuất File PDF";
             this.bt_xuatFilePdf.UseVisualStyleBackColor = true;
             // 
-            // linkLabel1
+            // lb_laytemplate
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(19, 21);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(71, 13);
-            this.linkLabel1.TabIndex = 1;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Lấy Template";
+            this.lb_laytemplate.AutoSize = true;
+            this.lb_laytemplate.Location = new System.Drawing.Point(19, 21);
+            this.lb_laytemplate.Name = "lb_laytemplate";
+            this.lb_laytemplate.Size = new System.Drawing.Size(71, 13);
+            this.lb_laytemplate.TabIndex = 1;
+            this.lb_laytemplate.TabStop = true;
+            this.lb_laytemplate.Text = "Lấy Template";
+            this.lb_laytemplate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // bt_LoadExcel
             // 
@@ -233,7 +236,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.bt_xuatFilePdf);
-            this.splitContainer1.Panel2.Controls.Add(this.linkLabel1);
+            this.splitContainer1.Panel2.Controls.Add(this.lb_laytemplate);
             this.splitContainer1.Panel2.Controls.Add(this.bt_LoadExcel);
             this.splitContainer1.Size = new System.Drawing.Size(786, 396);
             this.splitContainer1.SplitterDistance = 504;
@@ -271,15 +274,16 @@
             this.tabControl1.Size = new System.Drawing.Size(800, 428);
             this.tabControl1.TabIndex = 3;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "Tạo QR BIDV - tunn1@bidv.com.vn - Ver: 2.0";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -317,7 +321,7 @@
         private System.Windows.Forms.TextBox tb_tieude;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button bt_xuatFilePdf;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lb_laytemplate;
         private System.Windows.Forms.Button bt_LoadExcel;
         private System.Windows.Forms.BindingSource dataExcelBindingSource;
         private System.Windows.Forms.DataGridView dataGridView1;

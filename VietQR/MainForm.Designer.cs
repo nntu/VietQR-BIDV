@@ -36,13 +36,11 @@ namespace VietQR
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.tb_tenchutk = new System.Windows.Forms.TextBox();
             this.tb_sotk = new System.Windows.Forms.MaskedTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.bt_taoma = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.tb_tieude = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -51,11 +49,13 @@ namespace VietQR
             this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.bt_xuatFilePdf = new System.Windows.Forms.Button();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lb_laytemplate = new System.Windows.Forms.LinkLabel();
             this.bt_LoadExcel = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tb_tieude = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -129,15 +129,6 @@ namespace VietQR
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Tài khoản";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 87);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Tiêu Đề";
-            // 
             // tb_tenchutk
             // 
             this.tb_tenchutk.Location = new System.Drawing.Point(126, 54);
@@ -181,13 +172,6 @@ namespace VietQR
             this.label3.TabIndex = 20;
             this.label3.Text = "Tên chủ tài khoản";
             // 
-            // tb_tieude
-            // 
-            this.tb_tieude.Location = new System.Drawing.Point(126, 84);
-            this.tb_tieude.Name = "tb_tieude";
-            this.tb_tieude.Size = new System.Drawing.Size(247, 20);
-            this.tb_tieude.TabIndex = 2;
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.splitContainer1);
@@ -212,7 +196,7 @@ namespace VietQR
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.bt_xuatFilePdf);
-            this.splitContainer1.Panel2.Controls.Add(this.linkLabel1);
+            this.splitContainer1.Panel2.Controls.Add(this.lb_laytemplate);
             this.splitContainer1.Panel2.Controls.Add(this.bt_LoadExcel);
             this.splitContainer1.Size = new System.Drawing.Size(786, 418);
             this.splitContainer1.SplitterDistance = 504;
@@ -265,16 +249,16 @@ namespace VietQR
             this.bt_xuatFilePdf.UseVisualStyleBackColor = true;
             this.bt_xuatFilePdf.Click += new System.EventHandler(this.bt_xuatFilePdf_Click);
             // 
-            // linkLabel1
+            // lb_laytemplate
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(19, 21);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(71, 13);
-            this.linkLabel1.TabIndex = 1;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Lấy Template";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.lb_laytemplate.AutoSize = true;
+            this.lb_laytemplate.Location = new System.Drawing.Point(19, 21);
+            this.lb_laytemplate.Name = "lb_laytemplate";
+            this.lb_laytemplate.Size = new System.Drawing.Size(71, 13);
+            this.lb_laytemplate.TabIndex = 1;
+            this.lb_laytemplate.TabStop = true;
+            this.lb_laytemplate.Text = "Lấy Template";
+            this.lb_laytemplate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lb_laytemplate_LinkClicked);
             // 
             // bt_LoadExcel
             // 
@@ -306,6 +290,22 @@ namespace VietQR
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             this.toolStripProgressBar1.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(25, 87);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Tiêu Đề";
+            // 
+            // tb_tieude
+            // 
+            this.tb_tieude.Location = new System.Drawing.Point(126, 84);
+            this.tb_tieude.Name = "tb_tieude";
+            this.tb_tieude.Size = new System.Drawing.Size(247, 20);
+            this.tb_tieude.TabIndex = 2;
             // 
             // MainForm
             // 
@@ -345,7 +345,7 @@ namespace VietQR
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lb_laytemplate;
         private System.Windows.Forms.Button bt_LoadExcel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.StatusStrip statusStrip1;
@@ -364,8 +364,8 @@ namespace VietQR
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button bt_taoma;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tb_tieude;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tb_tieude;
     }
 }
 

@@ -54,16 +54,7 @@ namespace VietQR
             }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var timestamp = DateTime.Now.ToFileTime();
-            FileInfo fi = new FileInfo(@"template.xlsx");
-            temp_template_excel = string.Format("{0}\\template_{1}.xlsx", tempfolder, timestamp);
-            fi.CopyTo(temp_template_excel, true);
-            Process process = new Process();
-            process.StartInfo.FileName = temp_template_excel;
-            process.Start();
-        }
+       
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -361,6 +352,19 @@ namespace VietQR
                 string base64String = Convert.ToBase64String(imageBytes);
                 return base64String;
             }
+        }
+
+        private void lb_laytemplate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            
+                var timestamp = DateTime.Now.ToFileTime();
+                FileInfo fi = new FileInfo(@"template.xlsx");
+                temp_template_excel = string.Format("{0}\\template_{1}.xlsx", tempfolder, timestamp);
+                fi.CopyTo(temp_template_excel, true);
+                Process process = new Process();
+                process.StartInfo.FileName = temp_template_excel;
+                process.Start();
+             
         }
     }
 }
