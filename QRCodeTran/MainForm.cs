@@ -2,6 +2,7 @@
 using iText.IO.Font;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
+
 using QRCoder;
 using Svg;
 using System;
@@ -72,12 +73,12 @@ namespace QRCodeTran
                 hotentk.Text = "Tên TK: " + tb_tenchutk.Text.ToUpper();
                 svgDoc.Write("result.svg");
 
-                pictureBox1.Image = qrCode.GetGraphic(20);
+              //  pictureBox1.Image = qrCode.GetGraphic(20);
 
                 PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
                 var filepdf ="test.pdf";
                 PdfWriter writer = new PdfWriter(filepdf);
-                PdfDocument pdfDoc = new PdfDocument(reader, writer);
+                iText.Kernel.Pdf.PdfDocument pdfDoc = new iText.Kernel.Pdf.PdfDocument(reader, writer);
 
                 PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
                 pdfDoc.AddFont(pdfFont);
@@ -93,9 +94,13 @@ namespace QRCodeTran
                 pdfDoc.Close();
                 writer.Close();
 
+                Stream pdf =   new FileStream(filepdf, FileMode.Open, FileAccess.Read);
+                byte[] png = Freeware.Pdf2Png.Convert(pdf, 1);
 
 
-
+                MemoryStream ms = new MemoryStream(png, 0, png.Length);
+                ms.Write(png, 0, png.Length);
+                pictureBox1.Image = Image.FromStream(ms, true);//Exception occurs here
 
 
                 ////30,66,126

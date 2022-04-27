@@ -34,28 +34,29 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.tb_tenchutk = new System.Windows.Forms.TextBox();
             this.tb_sotk = new System.Windows.Forms.MaskedTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.bt_taoma = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.tb_tieude = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.bt_xuatFilePdf = new System.Windows.Forms.Button();
             this.lb_laytemplate = new System.Windows.Forms.LinkLabel();
             this.bt_LoadExcel = new System.Windows.Forms.Button();
-            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.sttDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tieuDeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -64,6 +65,7 @@
             this.tabPage1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripProgressBar1
@@ -105,28 +107,17 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tb_tenchutk);
             this.groupBox1.Controls.Add(this.tb_sotk);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.bt_taoma);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.tb_tieude);
             this.groupBox1.Location = new System.Drawing.Point(8, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(415, 180);
+            this.groupBox1.Size = new System.Drawing.Size(415, 144);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Tài khoản";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 87);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Tiêu Đề";
             // 
             // tb_tenchutk
             // 
@@ -154,7 +145,7 @@
             // 
             // bt_taoma
             // 
-            this.bt_taoma.Location = new System.Drawing.Point(23, 136);
+            this.bt_taoma.Location = new System.Drawing.Point(23, 102);
             this.bt_taoma.Name = "bt_taoma";
             this.bt_taoma.Size = new System.Drawing.Size(96, 23);
             this.bt_taoma.TabIndex = 3;
@@ -171,13 +162,6 @@
             this.label3.TabIndex = 20;
             this.label3.Text = "Tên chủ tài khoản";
             // 
-            // tb_tieude
-            // 
-            this.tb_tieude.Location = new System.Drawing.Point(126, 84);
-            this.tb_tieude.Name = "tb_tieude";
-            this.tb_tieude.Size = new System.Drawing.Size(247, 20);
-            this.tb_tieude.TabIndex = 2;
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -191,6 +175,7 @@
             this.bt_xuatFilePdf.TabIndex = 2;
             this.bt_xuatFilePdf.Text = "Xuất File PDF";
             this.bt_xuatFilePdf.UseVisualStyleBackColor = true;
+            this.bt_xuatFilePdf.Click += new System.EventHandler(this.bt_xuatFilePdf_Click);
             // 
             // lb_laytemplate
             // 
@@ -211,11 +196,17 @@
             this.bt_LoadExcel.TabIndex = 0;
             this.bt_LoadExcel.Text = "Load Template";
             this.bt_LoadExcel.UseVisualStyleBackColor = true;
+            this.bt_LoadExcel.Click += new System.EventHandler(this.bt_LoadExcel_Click);
             // 
             // dataGridView1
             // 
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sttDataGridViewTextBoxColumn,
+            this.tieuDeDataGridViewTextBoxColumn,
+            this.hoTenDataGridViewTextBoxColumn,
+            this.soTkDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.dataExcelBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
@@ -274,6 +265,34 @@
             this.tabControl1.Size = new System.Drawing.Size(800, 428);
             this.tabControl1.TabIndex = 3;
             // 
+            // dataExcelBindingSource
+            // 
+            this.dataExcelBindingSource.DataSource = typeof(BIDVQR.Data_Excel);
+            // 
+            // sttDataGridViewTextBoxColumn
+            // 
+            this.sttDataGridViewTextBoxColumn.DataPropertyName = "stt";
+            this.sttDataGridViewTextBoxColumn.HeaderText = "stt";
+            this.sttDataGridViewTextBoxColumn.Name = "sttDataGridViewTextBoxColumn";
+            // 
+            // tieuDeDataGridViewTextBoxColumn
+            // 
+            this.tieuDeDataGridViewTextBoxColumn.DataPropertyName = "Tieu_De";
+            this.tieuDeDataGridViewTextBoxColumn.HeaderText = "Tieu_De";
+            this.tieuDeDataGridViewTextBoxColumn.Name = "tieuDeDataGridViewTextBoxColumn";
+            // 
+            // hoTenDataGridViewTextBoxColumn
+            // 
+            this.hoTenDataGridViewTextBoxColumn.DataPropertyName = "HoTen";
+            this.hoTenDataGridViewTextBoxColumn.HeaderText = "HoTen";
+            this.hoTenDataGridViewTextBoxColumn.Name = "hoTenDataGridViewTextBoxColumn";
+            // 
+            // soTkDataGridViewTextBoxColumn
+            // 
+            this.soTkDataGridViewTextBoxColumn.DataPropertyName = "So_Tk";
+            this.soTkDataGridViewTextBoxColumn.HeaderText = "So_Tk";
+            this.soTkDataGridViewTextBoxColumn.Name = "soTkDataGridViewTextBoxColumn";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -289,7 +308,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -300,6 +318,7 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,23 +331,25 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_tenchutk;
         private System.Windows.Forms.MaskedTextBox tb_sotk;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button bt_taoma;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tb_tieude;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button bt_xuatFilePdf;
         private System.Windows.Forms.LinkLabel lb_laytemplate;
         private System.Windows.Forms.Button bt_LoadExcel;
-        private System.Windows.Forms.BindingSource dataExcelBindingSource;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sttDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tieuDeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hoTenDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn soTkDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource dataExcelBindingSource;
     }
 }
 
