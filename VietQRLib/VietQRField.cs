@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VietQRLib
+﻿namespace VietQRLib
 {
     public class VietQRField
     {
@@ -22,6 +16,5 @@ namespace VietQRLib
         public const string CONSUMER_INFO_CONSUMER_MERCHANT = "01";
         public const string CONSUMER_INFO_SERVICE_CODE = "02";
         public const string ADDITION_REF = "08";
-
     }
 }

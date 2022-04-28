@@ -1,4 +1,9 @@
-﻿using QRCoder;
+﻿using iText.Forms;
+using iText.IO.Font;
+using iText.Kernel.Font;
+using iText.Kernel.Pdf;
+
+using QRCoder;
 using Svg;
 using System;
 using System.Collections.Generic;
@@ -43,67 +48,64 @@ namespace QRCodeTran
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
                 ArtQRCode qrCode = new ArtQRCode(qrCodeData);
 
-                SvgQRCode qrCodesvg = new SvgQRCode(qrCodeData);
-                string qrCodeAsSvg = qrCodesvg.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White);
-                string fileName = @"qr.svg";
-                StreamWriter writer = new StreamWriter(fileName);
-                writer.Write(qrCodeAsSvg);
-                writer.Close();
+                //SvgQRCode qrCodesvg = new SvgQRCode(qrCodeData);
+                //string qrCodeAsSvg = qrCodesvg.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White);
+                //string fileName = @"qr.svg";
+                //StreamWriter writer = new StreamWriter(fileName);
+                //writer.Write(qrCodeAsSvg);
+                //writer.Close();
 
                 Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
-                                
+                var imagePath = "qrcode.png";
 
-                var svgDoc = SvgDocument.Open("vietqr.svg"); 
+                qrCodeImage.Save(imagePath, ImageFormat.Png);
+
+                var svgDoc = SvgDocument.Open("BIDVQR.svg"); 
                 
 
                 var g = svgDoc.GetElementById("qrcode") as SvgImage;
                 g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);
 
-                //var asotk = svgDoc.GetElementById("sotk") as SvgTextSpan;
-                //asotk.Text = "Số TK: " + sotk;
+                var asotk = svgDoc.GetElementById("sotk") as SvgText;
+                asotk.Text = "Số TK: " + sotk;
 
-                //var hotentk = svgDoc.GetElementById("hotentk") as SvgTextSpan;
-                //hotentk.Text = "Tên TK: " + tb_tenchutk.Text.ToUpper();
-
-
-
-                //Bitmap bitmap = svgDoc.Draw();//load the image file
-                //PrivateFontCollection pfcoll = new PrivateFontCollection();
-                ////put a font file under a Fonts directory within your application root
-                //var fontName = "Roboto-Bold.ttf";
-                //pfcoll.AddFontFile("fonts/" + fontName);
-                //FontFamily ff = pfcoll.Families[0];
-                //using (Graphics graphics = Graphics.FromImage(bitmap))
-                //{
-                //    using (Font RobotoFont = new Font(ff, 30, FontStyle.Bold, GraphicsUnit.Point))
-                //    {
-                //        Rectangle rect = new Rectangle(0, 1130, bitmap.Width - 10,60);
-
-                //        StringFormat sf = new StringFormat
-                //        {
-                //            LineAlignment = StringAlignment.Center,
-                //            Alignment = StringAlignment.Center
-                //        };
-
-                //        graphics.DrawString("Số TK: " + sotk, RobotoFont, Brushes.Red, rect, sf);
-
-                //        rect = new Rectangle(0, 1190 , bitmap.Width - 10, 60);
-
-                //        graphics.DrawString("Tên TK: "+ tb_tenchutk.Text, RobotoFont, Brushes.Red, rect, sf);
-
-                //        //graphics.DrawRectangle(Pens.Green, rect);
-                //    }
-                //}
-                pictureBox1.Image = svgDoc.Draw(); 
-
-                svgDoc.Draw().Save("aaaa.png");
-
-
-
+                var hotentk = svgDoc.GetElementById("hotentk") as SvgText;
+                hotentk.Text = "Tên TK: " + tb_tenchutk.Text.ToUpper();
                 svgDoc.Write("result.svg");
+
+              //  pictureBox1.Image = qrCode.GetGraphic(20);
+
+                PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
+                var filepdf ="test.pdf";
+                PdfWriter writer = new PdfWriter(filepdf);
+                iText.Kernel.Pdf.PdfDocument pdfDoc = new iText.Kernel.Pdf.PdfDocument(reader, writer);
+
+                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
+                pdfDoc.AddFont(pdfFont);
+                PdfPage page = pdfDoc.GetFirstPage();
+                PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
+                byte[] byteArray = File.ReadAllBytes(imagePath);
+                var imageStr = Convert.ToBase64String(byteArray);
+                formc.GetField("qrcode").SetValue(imageStr);
+                formc.GetField("sotk").SetValue("Số TK: " + sotk, pdfFont, 18);
+                formc.GetField("hotentk").SetValue("Tên TK: " + tb_tenchutk.Text.ToUpper(), pdfFont, 14);
+                formc.FlattenFields();
+                
+                pdfDoc.Close();
+                writer.Close();
+
+                Stream pdf =   new FileStream(filepdf, FileMode.Open, FileAccess.Read);
+                byte[] png = Freeware.Pdf2Png.Convert(pdf, 1);
+
+
+                MemoryStream ms = new MemoryStream(png, 0, png.Length);
+                ms.Write(png, 0, png.Length);
+                pictureBox1.Image = Image.FromStream(ms, true);//Exception occurs here
+
+
                 ////30,66,126
                 //pictureBox1.Image = qrCodeImage;
-                
+
             }
         }
 

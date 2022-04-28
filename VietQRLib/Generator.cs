@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace VietQRLib
 {
@@ -11,23 +8,25 @@ namespace VietQRLib
         //// Bank ID
         //public static string bankId { get; set; }
         ////  Account No
-        //public static string accountNo { get; set; } 
+        //public static string accountNo { get; set; }
         //// Amount to transfer
         //public static int amount { get; set; }
         // Ref
-        public static string info ="";
+        public static string info = "";
+
         //// Return text or image in base64
 
         //// Data path
         public static string data;
+
         // Bank tranfer by card id
         public static bool isCard = false;
+
         // Labels
         public static string labels;
 
         public static string Generator_VietQR(string bankId, string accountNo, int amount, string info)
         {
-
             var stringToGenerate = "";
             var paymentType = "11";
             var consumerInfo = Helper.generateMerchantInfo(bankId, accountNo, isCard);
@@ -62,9 +61,9 @@ namespace VietQRLib
             data = Helper.addField(stringToGenerate, VietQRField.CRC, hexOutput);
             return data;
         }
-        public static string  Generator_VietQR(string bankId, string accountNo)
-        {
 
+        public static string Generator_VietQR(string bankId, string accountNo)
+        {
             var stringToGenerate = "";
             var paymentType = "11";
             var consumerInfo = Helper.generateMerchantInfo(bankId, accountNo, isCard);
@@ -80,9 +79,9 @@ namespace VietQRLib
             stringToGenerate = Helper.addField(stringToGenerate, VietQRField.CONSUMER_INFO, consumerInfo);
             // Add currency
             stringToGenerate = Helper.addField(stringToGenerate, VietQRField.CURRENCY_CODE, "704");
-           
+
             stringToGenerate = Helper.addField(stringToGenerate, VietQRField.COUNTRY_CODE, "VN");
-           
+
             byte[] bytes = Encoding.ASCII.GetBytes(stringToGenerate + VietQRField.CRC + "04");
 
             CRCTool foo = new CRCTool();

@@ -1,6 +1,5 @@
 ﻿using iText.Forms;
 using iText.IO.Font;
-using iText.IO.Font.Constants;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using NLog;
@@ -10,16 +9,12 @@ using QRCoder;
 using Svg;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -29,7 +24,6 @@ namespace VietQR
 {
     public partial class MainForm : Form
     {
-
         private string tempfolder;
         private string vietqrfolder;
         private string pdffolder;
@@ -41,8 +35,8 @@ namespace VietQR
         public MainForm()
         {
             InitializeComponent();
-
         }
+
         public static void OpenExplorer(string dir)
         {
             var result = MessageBox.Show($"Xuất Bc thành công \n File Lưu tại {dir} \n Bạn Có muốn mở file", @"OpenFile", MessageBoxButtons.YesNo,
@@ -59,16 +53,8 @@ namespace VietQR
                 });
             }
         }
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var timestamp = DateTime.Now.ToFileTime();
-            FileInfo fi = new FileInfo(@"template.xlsx");
-            temp_template_excel = string.Format("{0}\\template_{1}.xlsx", tempfolder, timestamp);
-            fi.CopyTo(temp_template_excel, true);
-            Process process = new Process();
-            process.StartInfo.FileName = temp_template_excel;
-            process.Start();
-        }
+
+       
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -95,6 +81,7 @@ namespace VietQR
 
             _cf = Config.Load();
         }
+
         private List<Data_Excel> LoadThongTinExcel(IProgress<int> progress, ISheet sheet)
         {
             try
@@ -138,9 +125,6 @@ namespace VietQR
                         if (progress != null) progress.Report(i);
                     }
                     //   _db.SetThongTinCB(dsttcb);
-
-
-
                 }
 
                 return ds;
@@ -151,6 +135,7 @@ namespace VietQR
                 return null;
             }
         }
+
         private async void bt_LoadExcel_Click(object sender, EventArgs e)
         {
             toolStripProgressBar1.Visible = true;
@@ -178,7 +163,6 @@ namespace VietQR
                 var ls = await Task.Run(() => LoadThongTinExcel(progress, sheet));
 
                 dataGridView1.DataSource = ls;
-
             }
 
             // toolStripProgressBar1.Visible = false;
@@ -199,20 +183,14 @@ namespace VietQR
             await Task.Run(() => GetVietQR(progress, ls));
             bt_xuatFilePdf.Enabled = false;
 
-
-
             // toolStripProgressBar1.Visible = false;
         }
 
         private void GetVietQR(IProgress<int> progress, List<Data_Excel> ds)
         {
-
-
-
             var j = 1;
             foreach (var i in ds)
             {
-
                 var vietqr = Generator.Generator_VietQR("BIDV", i.So_Tk);
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
@@ -256,12 +234,10 @@ namespace VietQR
 
                 bitmap.Save(imagePath);
 
-
                 PdfReader reader = new PdfReader("mau.pdf");
                 var filepdf = pdffolder + '\\' + i.HoTen + "-" + i.So_Tk + ".pdf";
                 PdfWriter writer = new PdfWriter(filepdf);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
-
 
                 PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
                 pdfDoc.AddFont(pdfFont);
@@ -281,12 +257,10 @@ namespace VietQR
             }
             bt_xuatFilePdf.Enabled = true;
             OpenExplorer(pdffolder);
-
         }
 
         private void tb_UpdateConfig_Click(object sender, EventArgs e)
         {
-
         }
 
         private void bt_taoma_Click(object sender, EventArgs e)
@@ -296,23 +270,18 @@ namespace VietQR
             if (sotk.Length == 0)
             {
                 MessageBox.Show("Chưa nhập số tk");
-
             }
             else
             {
-
-
                 var vietqr = Generator.Generator_VietQR("BIDV", sotk);
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
                 ArtQRCode qrCode = new ArtQRCode(qrCodeData);
-                Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
+                Bitmap qrCodeImage = qrCode.GetGraphic(100, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("v2.png"));
 
                 var svgDoc = SvgDocument.Open("vietqr.svg");
                 var g = svgDoc.GetElementById("qrcode") as SvgImage;
                 g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);
-
-
 
                 Bitmap bitmap = svgDoc.Draw();//load the image file
                 PrivateFontCollection pfcoll = new PrivateFontCollection();
@@ -353,7 +322,6 @@ namespace VietQR
                 PdfWriter writer = new PdfWriter(filepdf);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
 
-
                 PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
 
                 pdfDoc.AddFont(pdfFont);
@@ -371,6 +339,7 @@ namespace VietQR
                 bt_taoma.Enabled = true;
             }
         }
+
         public string ImageToBase64(Image image, System.Drawing.Imaging.ImageFormat format)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -383,6 +352,19 @@ namespace VietQR
                 string base64String = Convert.ToBase64String(imageBytes);
                 return base64String;
             }
+        }
+
+        private void lb_laytemplate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            
+                var timestamp = DateTime.Now.ToFileTime();
+                FileInfo fi = new FileInfo(@"template.xlsx");
+                temp_template_excel = string.Format("{0}\\template_{1}.xlsx", tempfolder, timestamp);
+                fi.CopyTo(temp_template_excel, true);
+                Process process = new Process();
+                process.StartInfo.FileName = temp_template_excel;
+                process.Start();
+             
         }
     }
 }
