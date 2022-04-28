@@ -36,7 +36,7 @@ namespace QRCodeTran
             {
               
 
-                var vietqr = Generator.Generator_VietQR("BIDV", sotk ); 
+                var vietqr = Generator.Generator_VietQR("BIDV", sotk, 15260000,"thanh toan tien hang" ); 
 
 
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
@@ -59,11 +59,11 @@ namespace QRCodeTran
                 var g = svgDoc.GetElementById("qrcode") as SvgImage;
                 g.Href = "data:image/png;base64," + ImageToBase64(qrCodeImage, ImageFormat.Png);
 
-                var asotk = svgDoc.GetElementById("sotk") as SvgTextSpan;
-                asotk.Text = "Số TK: " + sotk;
+                //var asotk = svgDoc.GetElementById("sotk") as SvgTextSpan;
+                //asotk.Text = "Số TK: " + sotk;
 
-                var hotentk = svgDoc.GetElementById("hotentk") as SvgTextSpan;
-                hotentk.Text = "Tên TK: " + tb_tenchutk.Text.ToUpper();
+                //var hotentk = svgDoc.GetElementById("hotentk") as SvgTextSpan;
+                //hotentk.Text = "Tên TK: " + tb_tenchutk.Text.ToUpper();
 
 
 
@@ -94,11 +94,12 @@ namespace QRCodeTran
                 //        //graphics.DrawRectangle(Pens.Green, rect);
                 //    }
                 //}
-                pictureBox1.Image = svgDoc.Draw(); ;
+                pictureBox1.Image = svgDoc.Draw(); 
+
+                svgDoc.Draw().Save("aaaa.png");
 
 
 
-                
                 svgDoc.Write("result.svg");
                 ////30,66,126
                 //pictureBox1.Image = qrCodeImage;
