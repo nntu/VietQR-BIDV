@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -48,11 +49,11 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.sttDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tieuDeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -204,7 +205,6 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sttDataGridViewTextBoxColumn,
-            this.tieuDeDataGridViewTextBoxColumn,
             this.hoTenDataGridViewTextBoxColumn,
             this.soTkDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.dataExcelBindingSource;
@@ -247,7 +247,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1});
+            this.toolStripProgressBar1,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
@@ -265,21 +266,11 @@
             this.tabControl1.Size = new System.Drawing.Size(800, 428);
             this.tabControl1.TabIndex = 3;
             // 
-            // dataExcelBindingSource
-            // 
-            this.dataExcelBindingSource.DataSource = typeof(BIDVQR.Data_Excel);
-            // 
             // sttDataGridViewTextBoxColumn
             // 
             this.sttDataGridViewTextBoxColumn.DataPropertyName = "stt";
             this.sttDataGridViewTextBoxColumn.HeaderText = "stt";
             this.sttDataGridViewTextBoxColumn.Name = "sttDataGridViewTextBoxColumn";
-            // 
-            // tieuDeDataGridViewTextBoxColumn
-            // 
-            this.tieuDeDataGridViewTextBoxColumn.DataPropertyName = "Tieu_De";
-            this.tieuDeDataGridViewTextBoxColumn.HeaderText = "Tieu_De";
-            this.tieuDeDataGridViewTextBoxColumn.Name = "tieuDeDataGridViewTextBoxColumn";
             // 
             // hoTenDataGridViewTextBoxColumn
             // 
@@ -293,6 +284,16 @@
             this.soTkDataGridViewTextBoxColumn.HeaderText = "So_Tk";
             this.soTkDataGridViewTextBoxColumn.Name = "soTkDataGridViewTextBoxColumn";
             // 
+            // dataExcelBindingSource
+            // 
+            this.dataExcelBindingSource.DataSource = typeof(BIDVQR.Data_Excel);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -300,6 +301,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Tạo QR BIDV - tunn1@bidv.com.vn - Ver: 2.0";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -350,6 +352,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn hoTenDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn soTkDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource dataExcelBindingSource;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

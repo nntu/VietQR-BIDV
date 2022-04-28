@@ -36,11 +36,13 @@ namespace VietQR
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tb_tenchutk = new System.Windows.Forms.TextBox();
             this.tb_sotk = new System.Windows.Forms.MaskedTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.bt_taoma = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.tb_tieude = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -54,8 +56,7 @@ namespace VietQR
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tb_tieude = new System.Windows.Forms.TextBox();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -129,6 +130,15 @@ namespace VietQR
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Tài khoản";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(25, 87);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Tiêu Đề";
+            // 
             // tb_tenchutk
             // 
             this.tb_tenchutk.Location = new System.Drawing.Point(126, 54);
@@ -171,6 +181,13 @@ namespace VietQR
             this.label3.Size = new System.Drawing.Size(94, 13);
             this.label3.TabIndex = 20;
             this.label3.Text = "Tên chủ tài khoản";
+            // 
+            // tb_tieude
+            // 
+            this.tb_tieude.Location = new System.Drawing.Point(126, 84);
+            this.tb_tieude.Name = "tb_tieude";
+            this.tb_tieude.Size = new System.Drawing.Size(247, 20);
+            this.tb_tieude.TabIndex = 2;
             // 
             // tabPage1
             // 
@@ -278,7 +295,8 @@ namespace VietQR
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1});
+            this.toolStripProgressBar1,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
@@ -291,21 +309,11 @@ namespace VietQR
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             this.toolStripProgressBar1.Visible = false;
             // 
-            // label2
+            // toolStripStatusLabel1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 87);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Tiêu Đề";
-            // 
-            // tb_tieude
-            // 
-            this.tb_tieude.Location = new System.Drawing.Point(126, 84);
-            this.tb_tieude.Name = "tb_tieude";
-            this.tb_tieude.Size = new System.Drawing.Size(247, 20);
-            this.tb_tieude.TabIndex = 2;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // MainForm
             // 
@@ -366,6 +374,7 @@ namespace VietQR
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_tieude;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

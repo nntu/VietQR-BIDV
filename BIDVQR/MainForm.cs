@@ -170,12 +170,12 @@ namespace BIDVQR
                         }
                         // Get data from the 4th column (4th cell of each row)
                         // curRow.GetCell(1).SetCellType(CellType.String);
-                        curRow.GetCell(3).SetCellType(CellType.String);
-                        if (curRow.GetCell(3) != null)
+                        curRow.GetCell(2).SetCellType(CellType.String);
+                        if (curRow.GetCell(2) != null)
                         {
                             
-                            var hoten = curRow.GetCell(1) == null ? "" : curRow.GetCell(2).StringCellValue.Trim();
-                            var sotk = curRow.GetCell(2) == null ? "" : curRow.GetCell(3).StringCellValue.Trim();
+                            var hoten = curRow.GetCell(1) == null ? "" : curRow.GetCell(1).StringCellValue.Trim();
+                            var sotk = curRow.GetCell(2) == null ? "" : curRow.GetCell(2).StringCellValue.Trim();
 
                             ds.Add(new Data_Excel()
                             {
@@ -230,6 +230,7 @@ namespace BIDVQR
 
         private async void bt_xuatFilePdf_Click(object sender, EventArgs e)
         {
+            bt_xuatFilePdf.Enabled = false;
             toolStripProgressBar1.Visible = true;
 
             toolStripProgressBar1.Value = 0;
@@ -241,7 +242,7 @@ namespace BIDVQR
             toolStripProgressBar1.Maximum = ls.Count();
 
             await Task.Run(() => GetVietQR(progress, ls));
-            bt_xuatFilePdf.Enabled = false;
+            bt_xuatFilePdf.Enabled = true;
         }
 
         private void GetVietQR(IProgress<int> progress, List<Data_Excel> ds)
@@ -256,7 +257,7 @@ namespace BIDVQR
                 Bitmap qrCodeImage = qrCode.GetGraphic(100, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("logobidv.png"));
 
 
-                pictureBox1.Image = qrCodeImage;
+                //pictureBox1.Image = qrCodeImage;
                 var imagePath = qrfolder + '\\' + i.So_Tk + "-lite.png";
 
                 //svgDoc.Write(vietqrfolder + '\\' + sotk + ".svg");         
@@ -264,7 +265,7 @@ namespace BIDVQR
                 qrCodeImage.Save(imagePath, ImageFormat.Png);
 
                 PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
-                var filepdf = pdffolder + '\\' + tb_tenchutk.Text.ToUpper() + "-" + i.So_Tk + ".pdf";
+                var filepdf = pdffolder + '\\' + i.HoTen.Trim().ToUpper() + "-" + i.So_Tk + ".pdf";
                 PdfWriter writer = new PdfWriter(filepdf);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
 
@@ -292,7 +293,7 @@ namespace BIDVQR
                 pictureBox1.Image = kequa;
                 kequa.Save(qrfolder + '\\' + i.So_Tk + "-full.png", ImageFormat.Png);
 
-
+                toolStripStatusLabel1.Text = i.HoTen.ToUpper() + "-" + i.So_Tk;
 
                 Thread.Sleep(30);
                 if (progress != null) progress.Report(j);
