@@ -48,12 +48,18 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rb_ExportALLfile = new System.Windows.Forms.RadioButton();
+            this.rb_export1file = new System.Windows.Forms.RadioButton();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tb_tenfilepdf = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.sttDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -66,6 +72,8 @@
             this.tabPage1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -170,7 +178,7 @@
             // 
             // bt_xuatFilePdf
             // 
-            this.bt_xuatFilePdf.Location = new System.Drawing.Point(22, 91);
+            this.bt_xuatFilePdf.Location = new System.Drawing.Point(22, 256);
             this.bt_xuatFilePdf.Name = "bt_xuatFilePdf";
             this.bt_xuatFilePdf.Size = new System.Drawing.Size(113, 23);
             this.bt_xuatFilePdf.TabIndex = 2;
@@ -211,7 +219,7 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(504, 396);
+            this.dataGridView1.Size = new System.Drawing.Size(463, 396);
             this.dataGridView1.TabIndex = 0;
             // 
             // splitContainer1
@@ -226,11 +234,12 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel2.Controls.Add(this.bt_xuatFilePdf);
             this.splitContainer1.Panel2.Controls.Add(this.lb_laytemplate);
             this.splitContainer1.Panel2.Controls.Add(this.bt_LoadExcel);
             this.splitContainer1.Size = new System.Drawing.Size(786, 396);
-            this.splitContainer1.SplitterDistance = 504;
+            this.splitContainer1.SplitterDistance = 463;
             this.splitContainer1.TabIndex = 0;
             // 
             // tabPage1
@@ -255,6 +264,13 @@
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Visible = false;
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage2);
@@ -265,6 +281,69 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(800, 428);
             this.tabControl1.TabIndex = 3;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.groupBox4);
+            this.groupBox3.Controls.Add(this.rb_export1file);
+            this.groupBox3.Controls.Add(this.rb_ExportALLfile);
+            this.groupBox3.Location = new System.Drawing.Point(22, 91);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(281, 147);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Xuất File";
+            // 
+            // rb_ExportALLfile
+            // 
+            this.rb_ExportALLfile.AutoSize = true;
+            this.rb_ExportALLfile.Location = new System.Drawing.Point(16, 33);
+            this.rb_ExportALLfile.Name = "rb_ExportALLfile";
+            this.rb_ExportALLfile.Size = new System.Drawing.Size(94, 17);
+            this.rb_ExportALLfile.TabIndex = 1;
+            this.rb_ExportALLfile.Text = "Xuất Từng File";
+            this.rb_ExportALLfile.UseVisualStyleBackColor = true;
+            this.rb_ExportALLfile.CheckedChanged += new System.EventHandler(this.rb_ExportALLfile_CheckedChanged);
+            // 
+            // rb_export1file
+            // 
+            this.rb_export1file.AutoSize = true;
+            this.rb_export1file.Checked = true;
+            this.rb_export1file.Location = new System.Drawing.Point(161, 33);
+            this.rb_export1file.Name = "rb_export1file";
+            this.rb_export1file.Size = new System.Drawing.Size(72, 17);
+            this.rb_export1file.TabIndex = 2;
+            this.rb_export1file.TabStop = true;
+            this.rb_export1file.Text = "Xuất 1 file";
+            this.rb_export1file.UseVisualStyleBackColor = true;
+            this.rb_export1file.CheckedChanged += new System.EventHandler(this.rb_export1file_CheckedChanged);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Controls.Add(this.tb_tenfilepdf);
+            this.groupBox4.Location = new System.Drawing.Point(6, 74);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(269, 51);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Tên File";
+            // 
+            // tb_tenfilepdf
+            // 
+            this.tb_tenfilepdf.Location = new System.Drawing.Point(58, 17);
+            this.tb_tenfilepdf.Name = "tb_tenfilepdf";
+            this.tb_tenfilepdf.Size = new System.Drawing.Size(205, 20);
+            this.tb_tenfilepdf.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Tên File";
             // 
             // sttDataGridViewTextBoxColumn
             // 
@@ -287,12 +366,6 @@
             // dataExcelBindingSource
             // 
             this.dataExcelBindingSource.DataSource = typeof(BIDVQR.Data_Excel);
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // MainForm
             // 
@@ -320,6 +393,10 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -353,6 +430,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn soTkDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource dataExcelBindingSource;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tb_tenfilepdf;
+        private System.Windows.Forms.RadioButton rb_export1file;
+        private System.Windows.Forms.RadioButton rb_ExportALLfile;
     }
 }
 
