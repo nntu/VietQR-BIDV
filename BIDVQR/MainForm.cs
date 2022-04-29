@@ -113,7 +113,8 @@ namespace BIDVQR
 
                 PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
                 var filepdf = pdffolder + '\\' + tb_tenchutk.Text.ToUpper() + "-" + sotk + ".pdf";
-                PdfWriter writer = new PdfWriter(filepdf);
+                MemoryStream baos = new MemoryStream();
+                PdfWriter writer = new PdfWriter(baos);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
 
                 PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
@@ -130,9 +131,9 @@ namespace BIDVQR
 
                 pdfDoc.Close();
                 writer.Close();
-
-                Stream pdf = new FileStream(filepdf, FileMode.Open, FileAccess.Read);
-                byte[] png = Freeware.Pdf2Png.Convert(pdf, 1);
+                File.WriteAllBytes(filepdf, baos.ToArray());
+                 
+                byte[] png = Freeware.Pdf2Png.Convert(baos.ToArray(), 1);
 
                 MemoryStream ms = new MemoryStream(png, 0, png.Length);
                 ms.Write(png, 0, png.Length);

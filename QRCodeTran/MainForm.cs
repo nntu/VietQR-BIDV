@@ -2,7 +2,8 @@
 using iText.IO.Font;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
-
+using iText.Kernel.Utils;
+using iText.Layout;
 using QRCoder;
 using Svg;
 using System;
@@ -77,12 +78,13 @@ namespace QRCodeTran
 
                 PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
                 var filepdf ="test.pdf";
+
                 PdfWriter writer = new PdfWriter(filepdf);
                 iText.Kernel.Pdf.PdfDocument pdfDoc = new iText.Kernel.Pdf.PdfDocument(reader, writer);
 
                 PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
                 pdfDoc.AddFont(pdfFont);
-                PdfPage page = pdfDoc.GetFirstPage();
+              
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
@@ -91,7 +93,7 @@ namespace QRCodeTran
                 formc.GetField("hotentk").SetValue("Tên TK: " + tb_tenchutk.Text.ToUpper(), pdfFont, 14);
                 formc.FlattenFields();
                 
-                pdfDoc.Close();
+                pdfDoc.Close(); 
                 writer.Close();
 
                 Stream pdf =   new FileStream(filepdf, FileMode.Open, FileAccess.Read);
@@ -103,6 +105,11 @@ namespace QRCodeTran
                 pictureBox1.Image = Image.FromStream(ms, true);//Exception occurs here
 
 
+
+               
+              
+
+               
                 ////30,66,126
                 //pictureBox1.Image = qrCodeImage;
 
@@ -123,10 +130,73 @@ namespace QRCodeTran
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public byte[] Combine(IEnumerable<byte[]> pdfs)
         {
-           
+            using (var writerMemoryStream = new MemoryStream())
+            {
+                using (var writer = new PdfWriter(writerMemoryStream))
+                {
+                    using (var mergedDocument = new PdfDocument(writer))
+                    {
+                        var merger = new PdfMerger(mergedDocument);
 
+                        foreach (var pdfBytes in pdfs)
+                        {
+                            using (var copyFromMemoryStream = new MemoryStream(pdfBytes))
+                            {
+                                using (var reader = new PdfReader(copyFromMemoryStream))
+                                {
+                                    using (var copyFromDocument = new PdfDocument(reader))
+                                    {
+                                        merger.Merge(copyFromDocument, 1, copyFromDocument.GetNumberOfPages());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return writerMemoryStream.ToArray();
+            }
+        }
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+            List<byte[]> asd = new  List<byte[]>();
+
+            //byte[] png = Freeware.Pdf2Png.Convert(pdfDoc, 1);
+
+
+
+            //MemoryStream ms = new MemoryStream(png, 0, png.Length);
+            //ms.Write(png, 0, png.Length);
+            //pictureBox1.Image = Image.FromStream(ms, true);//Exception occurs here
+            for (var i = 1; i <= 10; i++)
+            {
+                var imagePath = "qrcode.png";
+                PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
+                MemoryStream baos = new MemoryStream();
+                PdfWriter writer = new PdfWriter(baos);
+                iText.Kernel.Pdf.PdfDocument pdfDoc = new iText.Kernel.Pdf.PdfDocument(reader, writer);
+
+                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
+                pdfDoc.AddFont(pdfFont);
+                PdfPage page = pdfDoc.GetFirstPage();
+                PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
+                byte[] byteArray = File.ReadAllBytes(imagePath);
+                var imageStr = Convert.ToBase64String(byteArray);
+                formc.GetField("qrcode").SetValue(imageStr);
+                formc.GetField("sotk").SetValue("Số TK: " + i, pdfFont, 18);
+                formc.GetField("hotentk").SetValue("Tên TK: ", pdfFont, 14);
+                formc.FlattenFields();
+                pdfDoc.Close();
+                writer.Close();
+                byte[] png = Freeware.Pdf2Png.Convert(baos.ToArray(), 1);
+                File.WriteAllBytes(i + "aaa.png", png);
+                asd.Add(baos.ToArray());
+            }
+           
+            File.WriteAllBytes(@"iTextQuoteM.pdf",Combine(asd));
 
         }
     }
