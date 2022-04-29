@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -86,6 +87,8 @@ namespace BIDVQR
             }
 
             tb_tenfilepdf.Text = string.Format("file_{0:dd_MM_yyyy_hhmmss}.pdf", DateTime.Now);
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            this.Text = this.Text + " "+ version.ToString();
         }
 
         private void bt_taoma_Click(object sender, EventArgs e)
