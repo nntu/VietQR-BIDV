@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VietQRLib
+﻿namespace VietQRLib
 {
     /// <summary>
     /// Tool to calculate and add CRC codes to a string
-    /// 
+    ///
     /// ***************************************************************************
     /// Copyright (c) 2003 Thoraxcentrum, Erasmus MC, The Netherlands.
-    /// 
-    /// Written by Marcel de Wijs with help from a lot of others, 
+    ///
+    /// Written by Marcel de Wijs with help from a lot of others,
     /// especially Stefan Nelwan
-    /// 
+    ///
     /// This code is for free. I ported it from several different sources to C#.
-    /// 
+    ///
     /// JB mods: made private functions that are not used externally, March 07.
-    /// 
+    ///
     /// For comments: Marcel_de_Wijs@hotmail.com
     /// ***************************************************************************
     /// </summary>
@@ -32,9 +26,9 @@ namespace VietQRLib
         // 'refin' [0,1] specifies if a data byte is reflected before processing (UART) or not
         // 'refout' [0,1] specifies if the CRC will be reflected before XOR
         // Data character string
-        // For CRC-CCITT : order = 16, direct=1, poly=0x1021, CRCinit = 0xFFFF, crcxor=0; refin =0, refout=0  
-        // For CRC16:      order = 16, direct=1, poly=0x8005, CRCinit = 0x0, crcxor=0x0; refin =1, refout=1  
-        // For CRC32:      order = 32, direct=1, poly=0x4c11db7, CRCinit = 0xFFFFFFFF, crcxor=0xFFFFFFFF; refin =1, refout=1  
+        // For CRC-CCITT : order = 16, direct=1, poly=0x1021, CRCinit = 0xFFFF, crcxor=0; refin =0, refout=0
+        // For CRC16:      order = 16, direct=1, poly=0x8005, CRCinit = 0x0, crcxor=0x0; refin =1, refout=1
+        // For CRC32:      order = 32, direct=1, poly=0x4c11db7, CRCinit = 0xFFFFFFFF, crcxor=0xFFFFFFFF; refin =1, refout=1
         // Default : CRC-CCITT
 
         private int order = 16;
@@ -52,7 +46,7 @@ namespace VietQRLib
         private ulong[] crctab = new ulong[256];
 
         /// <summary>
-        /// Enumeration used in the init function to specify which CRC algorithm to use 
+        /// Enumeration used in the init function to specify which CRC algorithm to use
         /// </summary>
         public enum CRCCode
         {
@@ -77,7 +71,7 @@ namespace VietQRLib
         /// </summary>
         public CRCTool()
         {
-            // 
+            //
             // TODO: Add constructor logic here
             //
         }
@@ -93,9 +87,11 @@ namespace VietQRLib
                 case CRCCode.CRC_CCITT:
                     order = 16; direct = 1; polynom = 0x1021; crcinit = 0xFFFF; crcxor = 0; refin = 0; refout = 0;
                     break;
+
                 case CRCCode.CRC16:
                     order = 16; direct = 1; polynom = 0x8005; crcinit = 0x0; crcxor = 0x0; refin = 1; refout = 1;
                     break;
+
                 case CRCCode.CRC32:
                     order = 32; direct = 1; polynom = 0x4c11db7; crcinit = 0xFFFFFFFF; crcxor = 0xFFFFFFFF; refin = 1; refout = 1;
                     break;
@@ -149,10 +145,9 @@ namespace VietQRLib
             }
         }
 
-
         /// <summary>
         /// 4 ways to calculate the crc checksum. If you have to do a lot of encoding
-        /// you should use the table functions. Since they use precalculated values, which 
+        /// you should use the table functions. Since they use precalculated values, which
         /// saves some calculating.
         /// </summary>.
         public ulong crctablefast(byte[] p)
@@ -187,7 +182,7 @@ namespace VietQRLib
             return (crc);
         }
 
-        ulong crctable(byte[] p)
+        private ulong crctable(byte[] p)
         {
             // normal lookup table algorithm with augmented zero bytes.
             // only usable with polynom orders of 8, 16, 24 or 32.
@@ -235,7 +230,7 @@ namespace VietQRLib
             return (crc);
         }
 
-        ulong crcbitbybit(byte[] p)
+        private ulong crcbitbybit(byte[] p)
         {
             // bit by bit algorithm with augmented zero bytes.
             // does not use lookup table, suited for polynom orders between 1...32.
@@ -268,7 +263,6 @@ namespace VietQRLib
 
             for (i = 0; (int)i < order; i++)
             {
-
                 bit = crc & crchighbit;
                 crc <<= 1;
                 if (bit != 0) crc ^= polynom;
@@ -284,7 +278,7 @@ namespace VietQRLib
             return (crc);
         }
 
-        ulong crcbitbybitfast(byte[] p)
+        private ulong crcbitbybitfast(byte[] p)
         {
             // fast bit by bit algorithm without augmented zero bytes.
             // does not use lookup table, suited for polynom orders between 1...32.
@@ -319,10 +313,9 @@ namespace VietQRLib
             return (crc);
         }
 
-
         /// <summary>
         /// CalcCRCITT is an algorithm found on the web for calculating the CRCITT checksum
-        /// It is included to demonstrate that although it looks different it is the same 
+        /// It is included to demonstrate that although it looks different it is the same
         /// routine as the crcbitbybit* functions. But it is optimized and preconfigured for CRCITT.
         /// </summary>
         public ushort CalcCRCITT(byte[] p)
@@ -349,11 +342,10 @@ namespace VietQRLib
             return (ushort)uiCRCITTSum;
         }
 
-
         #region subroutines
+
         private ulong reflect(ulong crc, int bitnum)
         {
-
             // reflects the lower 'bitnum' bits of 'crc'
 
             ulong i, j = 1, crcout = 0;
@@ -371,7 +363,6 @@ namespace VietQRLib
 
         private void generate_crc_table()
         {
-
             // make CRC lookup table used by table algorithms
 
             int i, j;
@@ -401,6 +392,7 @@ namespace VietQRLib
                 crctab[i] = crc;
             }
         }
-        #endregion
+
+        #endregion subroutines
     }
 }
