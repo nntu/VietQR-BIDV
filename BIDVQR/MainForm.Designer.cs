@@ -425,7 +425,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.DataGridViewTextBoxColumn sttDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tieuDeDataGridViewTextBoxColumn;
+
         private System.Windows.Forms.DataGridViewTextBoxColumn hoTenDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn soTkDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource dataExcelBindingSource;

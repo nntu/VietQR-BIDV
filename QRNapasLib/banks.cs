@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VietQRLib
+namespace QRNapasLib
 {
     public class banks
     {

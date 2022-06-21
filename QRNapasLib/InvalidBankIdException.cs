@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace VietQRLib
+namespace QRNapasLib
 {
     [Serializable]
     internal class InvalidBankIdException : Exception

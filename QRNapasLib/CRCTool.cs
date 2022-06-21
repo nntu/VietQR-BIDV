@@ -1,22 +1,33 @@
-﻿namespace VietQRLib
+﻿namespace QRNapasLib
 {
-    /// <summary>
     /// Tool to calculate and add CRC codes to a string
-    ///
+	/// 
     /// ***************************************************************************
-    /// Copyright (c) 2003 Thoraxcentrum, Erasmus MC, The Netherlands.
-    ///
-    /// Written by Marcel de Wijs with help from a lot of others,
+    /// Copyright 2003-2004 Thoraxcentrum, Erasmus MC, The Netherlands.
+    /// 
+	/// Licensed under the Apache License, Version 2.0 (the "License");
+	/// you may not use this file except in compliance with the License.
+	/// You may obtain a copy of the License at
+	/// 
+	///		http://www.apache.org/licenses/LICENSE-2.0
+	///		
+	/// Unless required by applicable law or agreed to in writing, software
+	/// distributed under the License is distributed on an "AS IS" BASIS,
+	/// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	/// See the License for the specific language governing permissions and
+	/// limitations under the License.
+    /// 
+    /// Orignaly written by Marcel de Wijs with help from a lot of others, 
     /// especially Stefan Nelwan
-    ///
+    /// 
+    /// Edited by Maarten JB van Ettinger.
+    /// 
     /// This code is for free. I ported it from several different sources to C#.
-    ///
-    /// JB mods: made private functions that are not used externally, March 07.
-    ///
+    /// 
     /// For comments: Marcel_de_Wijs@hotmail.com
     /// ***************************************************************************
     /// </summary>
-    public class CRCTool
+	public class CRCTool
     {
         // 'order' [1..32] is the CRC polynom order, counted without the leading '1' bit
         // 'polynom' is the CRC polynom without leading '1' bit
@@ -26,9 +37,9 @@
         // 'refin' [0,1] specifies if a data byte is reflected before processing (UART) or not
         // 'refout' [0,1] specifies if the CRC will be reflected before XOR
         // Data character string
-        // For CRC-CCITT : order = 16, direct=1, poly=0x1021, CRCinit = 0xFFFF, crcxor=0; refin =0, refout=0
-        // For CRC16:      order = 16, direct=1, poly=0x8005, CRCinit = 0x0, crcxor=0x0; refin =1, refout=1
-        // For CRC32:      order = 32, direct=1, poly=0x4c11db7, CRCinit = 0xFFFFFFFF, crcxor=0xFFFFFFFF; refin =1, refout=1
+        // For CRC-CCITT : order = 16, direct=1, poly=0x1021, CRCinit = 0xFFFF, crcxor=0; refin =0, refout=0  
+        // For CRC16:      order = 16, direct=1, poly=0x8005, CRCinit = 0x0, crcxor=0x0; refin =1, refout=1  
+        // For CRC32:      order = 32, direct=1, poly=0x4c11db7, CRCinit = 0xFFFFFFFF, crcxor=0xFFFFFFFF; refin =1, refout=1  
         // Default : CRC-CCITT
 
         private int order = 16;
@@ -45,41 +56,16 @@
         private ulong crcinit_nondirect;
         private ulong[] crctab = new ulong[256];
 
-        /// <summary>
-        /// Enumeration used in the init function to specify which CRC algorithm to use
-        /// </summary>
-        public enum CRCCode
-        {
-            /// <summary>
-            /// CCITT scheme
-            /// </summary>
-            CRC_CCITT,
+        // Enumeration used in the init function to specify which CRC algorithm to use
+        public enum CRCCode { CRC_CCITT, CRC16, CRC32 };
 
-            /// <summary>
-            /// 16 bit scheme
-            /// </summary>
-            CRC16,
-
-            /// <summary>
-            /// 32 bit scheme
-            /// </summary>
-            CRC32
-        };
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
         public CRCTool()
         {
-            //
+            // 
             // TODO: Add constructor logic here
             //
         }
 
-        /// <summary>
-        /// Initialise the system
-        /// </summary>
-        /// <param name="CodingType">Coding type to initialize</param>
         public void Init(CRCCode CodingType)
         {
             switch (CodingType)
@@ -87,11 +73,9 @@
                 case CRCCode.CRC_CCITT:
                     order = 16; direct = 1; polynom = 0x1021; crcinit = 0xFFFF; crcxor = 0; refin = 0; refout = 0;
                     break;
-
                 case CRCCode.CRC16:
                     order = 16; direct = 1; polynom = 0x8005; crcinit = 0x0; crcxor = 0x0; refin = 1; refout = 1;
                     break;
-
                 case CRCCode.CRC32:
                     order = 32; direct = 1; polynom = 0x4c11db7; crcinit = 0xFFFFFFFF; crcxor = 0xFFFFFFFF; refin = 1; refout = 1;
                     break;
@@ -145,9 +129,10 @@
             }
         }
 
+
         /// <summary>
         /// 4 ways to calculate the crc checksum. If you have to do a lot of encoding
-        /// you should use the table functions. Since they use precalculated values, which
+        /// you should use the table functions. Since they use precalculated values, which 
         /// saves some calculating.
         /// </summary>.
         public ulong crctablefast(byte[] p)
@@ -182,7 +167,53 @@
             return (crc);
         }
 
-        private ulong crctable(byte[] p)
+        /// <summary>
+        /// 4 ways to calculate the crc checksum. If you have to do a lot of encoding
+        /// you should use the table functions. Since they use precalculated values, which 
+        /// saves some calculating.
+        /// </summary>.
+        public ulong crctablefast(byte[] p, int offset, int length)
+        {
+            // Works like crctablefast(byte[] p), except you now calculate a CRC for a specific part of the byte array.
+
+            // fast lookup table algorithm without augmented zero bytes, e.g. used in pkzip.
+            // only usable with polynom orders of 8, 16, 24 or 32.
+            ulong crc = crcinit_direct;
+
+            if (offset < 0)
+                offset = 0;
+            length += offset;
+            if (length > p.Length)
+                length = p.Length;
+
+            if (refin != 0)
+            {
+                crc = reflect(crc, order);
+            }
+            if (refin == 0)
+            {
+                for (int i = offset; i < length; i++)
+                {
+                    crc = (crc << 8) ^ crctab[((crc >> (order - 8)) & 0xff) ^ p[i]];
+                }
+            }
+            else
+            {
+                for (int i = offset; i < length; i++)
+                {
+                    crc = (crc >> 8) ^ crctab[(crc & 0xff) ^ p[i]];
+                }
+            }
+            if ((refout ^ refin) != 0)
+            {
+                crc = reflect(crc, order);
+            }
+            crc ^= crcxor;
+            crc &= crcmask;
+            return (crc);
+        }
+
+        public ulong crctable(byte[] p)
         {
             // normal lookup table algorithm with augmented zero bytes.
             // only usable with polynom orders of 8, 16, 24 or 32.
@@ -230,7 +261,63 @@
             return (crc);
         }
 
-        private ulong crcbitbybit(byte[] p)
+        // Works like crctable(byte[] p), except you now calculate a CRC for a specific part of the byte array.
+        public ulong crctable(byte[] p, int offset, int length)
+        {
+            // normal lookup table algorithm with augmented zero bytes.
+            // only usable with polynom orders of 8, 16, 24 or 32.
+            ulong crc = crcinit_nondirect;
+
+            if (offset < 0)
+                offset = 0;
+            length += offset;
+            if (length > p.Length)
+                length = p.Length;
+
+            if (refin != 0)
+            {
+                crc = reflect(crc, order);
+            }
+            if (refin == 0)
+            {
+                for (int i = offset; i < length; i++)
+                {
+                    crc = ((crc << 8) | p[i]) ^ crctab[(crc >> (order - 8)) & 0xff];
+                }
+            }
+            else
+            {
+                for (int i = offset; i < length; i++)
+                {
+                    crc = (ulong)(((int)(crc >> 8) | (p[i] << (order - 8))) ^ (int)crctab[crc & 0xff]);
+                }
+            }
+            if (refin == 0)
+            {
+                for (int i = 0; i < order / 8; i++)
+                {
+                    crc = (crc << 8) ^ crctab[(crc >> (order - 8)) & 0xff];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < order / 8; i++)
+                {
+                    crc = (crc >> 8) ^ crctab[crc & 0xff];
+                }
+            }
+
+            if ((refout ^ refin) != 0)
+            {
+                crc = reflect(crc, order);
+            }
+            crc ^= crcxor;
+            crc &= crcmask;
+
+            return (crc);
+        }
+
+        public ulong crcbitbybit(byte[] p)
         {
             // bit by bit algorithm with augmented zero bytes.
             // does not use lookup table, suited for polynom orders between 1...32.
@@ -263,6 +350,7 @@
 
             for (i = 0; (int)i < order; i++)
             {
+
                 bit = crc & crchighbit;
                 crc <<= 1;
                 if (bit != 0) crc ^= polynom;
@@ -278,7 +366,66 @@
             return (crc);
         }
 
-        private ulong crcbitbybitfast(byte[] p)
+        public ulong crcbitbybit(byte[] p, int offset, int length)
+        {
+            // Works like crcbitbybit(byte[] p), except you now calculate a CRC for a specific part of the byte array.
+
+            // bit by bit algorithm with augmented zero bytes.
+            // does not use lookup table, suited for polynom orders between 1...32.
+            int i = 0;
+            ulong j, c, bit;
+            ulong crc = crcinit_nondirect;
+
+            if (offset > 0)
+            {
+                i = offset;
+                length += offset;
+            }
+            if (length > p.Length)
+                length = p.Length;
+
+            for (; i < length; i++)
+            {
+                c = (ulong)p[i];
+                if (refin != 0)
+                {
+                    c = reflect(c, 8);
+                }
+
+                for (j = 0x80; j != 0; j >>= 1)
+                {
+                    bit = crc & crchighbit;
+                    crc <<= 1;
+                    if ((c & j) != 0)
+                    {
+                        crc |= 1;
+                    }
+                    if (bit != 0)
+                    {
+                        crc ^= polynom;
+                    }
+                }
+            }
+
+            for (i = 0; (int)i < order; i++)
+            {
+
+                bit = crc & crchighbit;
+                crc <<= 1;
+                if (bit != 0) crc ^= polynom;
+            }
+
+            if (refout != 0)
+            {
+                crc = reflect(crc, order);
+            }
+            crc ^= crcxor;
+            crc &= crcmask;
+
+            return (crc);
+        }
+
+        public ulong crcbitbybitfast(byte[] p)
         {
             // fast bit by bit algorithm without augmented zero bytes.
             // does not use lookup table, suited for polynom orders between 1...32.
@@ -313,9 +460,55 @@
             return (crc);
         }
 
+
+        public ulong crcbitbybitfast(byte[] p, int offset, int length)
+        {
+            // Works like crcbitbybitfast(byte[] p), except you now calculate a CRC for a specific part of the byte array.
+
+            // fast bit by bit algorithm without augmented zero bytes.
+            // does not use lookup table, suited for polynom orders between 1...32.
+            int i = 0;
+            ulong j, c, bit;
+            ulong crc = crcinit_direct;
+
+            if (offset > 0)
+            {
+                i = offset;
+                length += offset;
+            }
+            if (length > p.Length)
+                length = p.Length;
+
+            for (; i < length; i++)
+            {
+                c = (ulong)p[i];
+                if (refin != 0)
+                {
+                    c = reflect(c, 8);
+                }
+
+                for (j = 0x80; j > 0; j >>= 1)
+                {
+                    bit = crc & crchighbit;
+                    crc <<= 1;
+                    if ((c & j) > 0) bit ^= crchighbit;
+                    if (bit > 0) crc ^= polynom;
+                }
+            }
+
+            if (refout > 0)
+            {
+                crc = reflect(crc, order);
+            }
+            crc ^= crcxor;
+            crc &= crcmask;
+
+            return (crc);
+        }
+
         /// <summary>
         /// CalcCRCITT is an algorithm found on the web for calculating the CRCITT checksum
-        /// It is included to demonstrate that although it looks different it is the same
+        /// It is included to demonstrate that although it looks different it is the same 
         /// routine as the crcbitbybit* functions. But it is optimized and preconfigured for CRCITT.
         /// </summary>
         public ushort CalcCRCITT(byte[] p)
@@ -341,9 +534,46 @@
             }
             return (ushort)uiCRCITTSum;
         }
+        /// <summary>
+        /// CalcCRCITT is an algorithm found on the web for calculating the CRCITT checksum
+        /// It is included to demonstrate that although it looks different it is the same 
+        /// routine as the crcbitbybit* functions. But it is optimized and preconfigured for CRCITT.
+        /// </summary>
+        public ushort CalcCRCITT(byte[] p, int offset, int length)
+        {
+            // Works like CalcCRCITT(byte[] p), except you now calculate a CRC for a specific part of the byte array.
+            int iBufferIndex = 0;
+            uint uiCRCITTSum = 0xFFFF;
+            uint uiByteValue;
+
+            if (offset > 0)
+            {
+                iBufferIndex = offset;
+                length += offset;
+            }
+            if (length > p.Length)
+                length = p.Length;
+
+            for (; iBufferIndex < length; iBufferIndex++)
+            {
+                uiByteValue = ((uint)p[iBufferIndex] << 8);
+                for (int iBitIndex = 0; iBitIndex < 8; iBitIndex++)
+                {
+                    if (((uiCRCITTSum ^ uiByteValue) & 0x8000) != 0)
+                    {
+                        uiCRCITTSum = (uiCRCITTSum << 1) ^ 0x1021;
+                    }
+                    else
+                    {
+                        uiCRCITTSum <<= 1;
+                    }
+                    uiByteValue <<= 1;
+                }
+            }
+            return (ushort)uiCRCITTSum;
+        }
 
         #region subroutines
-
         private ulong reflect(ulong crc, int bitnum)
         {
             // reflects the lower 'bitnum' bits of 'crc'
@@ -363,6 +593,7 @@
 
         private void generate_crc_table()
         {
+
             // make CRC lookup table used by table algorithms
 
             int i, j;
@@ -392,7 +623,6 @@
                 crctab[i] = crc;
             }
         }
-
-        #endregion subroutines
+        #endregion 
     }
 }

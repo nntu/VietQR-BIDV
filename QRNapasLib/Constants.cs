@@ -1,4 +1,4 @@
-﻿namespace VietQRLib
+﻿namespace QRNapasLib
 {
     internal class Constants
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace VietQRLib
+namespace QRNapasLib
 {
     public static class Generator
     {
@@ -82,11 +82,13 @@ namespace VietQRLib
 
             stringToGenerate = Helper.addField(stringToGenerate, VietQRField.COUNTRY_CODE, "VN");
 
-            byte[] bytes = Encoding.ASCII.GetBytes(stringToGenerate + VietQRField.CRC + "04");
+            string chuoima = stringToGenerate + VietQRField.CRC + "04";
+
+            byte[] bytes = Encoding.ASCII.GetBytes(chuoima);
 
             CRCTool foo = new CRCTool();
             var a = foo.CalcCRCITT(bytes);
-            string hexOutput = String.Format("{0:X}", a);
+            string hexOutput = String.Format("{0:X}",(int) a);
             data = Helper.addField(stringToGenerate, VietQRField.CRC, hexOutput);
             return data;
         }

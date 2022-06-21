@@ -287,9 +287,9 @@
     <Folder Include="temp\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VietQRLib\VietQRLib.csproj">
+    <ProjectReference Include="..\QRNapasLib\QRNapasLib.csproj">
       <Project>{aa5a07f1-219e-4814-903a-20001093ce96}</Project>
-      <Name>VietQRLib</Name>
+      <Name>QRNapasLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

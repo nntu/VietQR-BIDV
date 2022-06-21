@@ -19,7 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VietQRLib;
+using QRNapasLib;
 
 namespace QRCodeTran
 {

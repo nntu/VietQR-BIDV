@@ -1,4 +1,4 @@
-﻿namespace VietQRLib
+﻿namespace QRNapasLib
 {
     public class VietQRField
     {
