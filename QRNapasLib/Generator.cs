@@ -89,6 +89,7 @@ namespace QRNapasLib
             CRCTool foo = new CRCTool();
             var a = foo.CalcCRCITT(bytes);
             string hexOutput = String.Format("{0:X}",(int) a);
+            if (hexOutput.Length == 3) hexOutput = "0" + hexOutput;
             data = Helper.addField(stringToGenerate, VietQRField.CRC, hexOutput);
             return data;
         }
