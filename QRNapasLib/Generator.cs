@@ -25,7 +25,7 @@ namespace QRNapasLib
         // Labels
         public static string labels;
 
-        public static string Generator_VietQR(string bankId, string accountNo, int amount, string info)
+        public static string Generator_QRNapas(string bankId, string accountNo, int amount, string info)
         {
             var stringToGenerate = "";
             var paymentType = "11";
@@ -58,11 +58,12 @@ namespace QRNapasLib
             CRCTool foo = new CRCTool();
             var a = foo.CalcCRCITT(bytes);
             string hexOutput = String.Format("{0:X}", a);
+            if (hexOutput.Length == 3) hexOutput = "0" + hexOutput;
             data = Helper.addField(stringToGenerate, VietQRField.CRC, hexOutput);
             return data;
         }
 
-        public static string Generator_VietQR(string bankId, string accountNo)
+        public static string Generator_QRNapas(string bankId, string accountNo)
         {
             var stringToGenerate = "";
             var paymentType = "11";

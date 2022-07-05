@@ -247,7 +247,7 @@ namespace test
 
             foreach(var i in listuser)
             {
-                var vietqr = Generator.Generator_VietQR("BIDV", i);
+                var vietqr = Generator.Generator_QRNapas("BIDV", i);
                 richTextBox1.AppendText(vietqr + "\r\n");
 
             }

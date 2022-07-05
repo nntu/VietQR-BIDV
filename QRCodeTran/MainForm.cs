@@ -42,7 +42,7 @@ namespace QRCodeTran
             {
               
 
-                var vietqr = Generator.Generator_VietQR("BIDV", sotk, 15260000,"thanh toan tien hang" ); 
+                var vietqr = Generator.Generator_QRNapas("BIDV", sotk, 15260000,"thanh toan tien hang" ); 
 
 
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();

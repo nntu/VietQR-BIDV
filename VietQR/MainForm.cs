@@ -191,7 +191,7 @@ namespace VietQR
             var j = 1;
             foreach (var i in ds)
             {
-                var vietqr = Generator.Generator_VietQR("BIDV", i.So_Tk);
+                var vietqr = Generator.Generator_QRNapas("BIDV", i.So_Tk);
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
                 ArtQRCode qrCode = new ArtQRCode(qrCodeData);
@@ -273,7 +273,7 @@ namespace VietQR
             }
             else
             {
-                var vietqr = Generator.Generator_VietQR("BIDV", sotk);
+                var vietqr = Generator.Generator_QRNapas("BIDV", sotk);
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(vietqr, QRCodeGenerator.ECCLevel.Q);
                 ArtQRCode qrCode = new ArtQRCode(qrCodeData);
