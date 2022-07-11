@@ -98,7 +98,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.pictureBox1);
-            this.groupBox2.Location = new System.Drawing.Point(468, 27);
+            this.groupBox2.Location = new System.Drawing.Point(503, 27);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(259, 317);
             this.groupBox2.TabIndex = 27;
@@ -123,22 +123,21 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(8, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(415, 144);
+            this.groupBox1.Size = new System.Drawing.Size(454, 144);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Tài khoản";
             // 
             // tb_tenchutk
             // 
-            this.tb_tenchutk.Location = new System.Drawing.Point(126, 54);
+            this.tb_tenchutk.Location = new System.Drawing.Point(184, 54);
             this.tb_tenchutk.Name = "tb_tenchutk";
             this.tb_tenchutk.Size = new System.Drawing.Size(247, 20);
             this.tb_tenchutk.TabIndex = 1;
             // 
             // tb_sotk
             // 
-            this.tb_sotk.Location = new System.Drawing.Point(126, 27);
-            this.tb_sotk.Mask = "###-##-########-#";
+            this.tb_sotk.Location = new System.Drawing.Point(184, 31);
             this.tb_sotk.Name = "tb_sotk";
             this.tb_sotk.Size = new System.Drawing.Size(247, 20);
             this.tb_sotk.TabIndex = 0;
@@ -146,11 +145,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 34);
+            this.label1.Location = new System.Drawing.Point(6, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.Size = new System.Drawing.Size(172, 13);
             this.label1.TabIndex = 16;
-            this.label1.Text = "Số tài khoản";
+            this.label1.Text = "Số tài khoản/Tài khoản Định danh";
             // 
             // bt_taoma
             // 
@@ -165,7 +164,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 61);
+            this.label3.Location = new System.Drawing.Point(6, 54);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(94, 13);
             this.label3.TabIndex = 20;

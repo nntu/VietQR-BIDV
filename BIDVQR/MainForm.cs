@@ -7,6 +7,7 @@ using NLog;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using QRCoder;
+using QRNapasLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +19,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using QRNapasLib;
 
 namespace BIDVQR
 {
@@ -88,7 +88,7 @@ namespace BIDVQR
 
             tb_tenfilepdf.Text = string.Format("file_{0:dd_MM_yyyy_hhmmss}.pdf", DateTime.Now);
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            this.Text = this.Text + " "+ version.ToString();
+            this.Text = this.Text + " " + version.ToString();
         }
 
         private void bt_taoma_Click(object sender, EventArgs e)
@@ -126,8 +126,8 @@ namespace BIDVQR
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
                 formc.GetField("qrcode").SetValue(imageStr);
-                formc.GetField("sotk").SetValue("Số TK: " + sotk, pdfFont, 18);
-                formc.GetField("hotentk").SetValue("Tên TK: " + tb_tenchutk.Text.ToUpper(), pdfFont, 14);
+                formc.GetField("sotk").SetValue("" + sotk, pdfFont, 15);
+                formc.GetField("hotentk").SetValue("" + tb_tenchutk.Text.ToUpper(), pdfFont, 14);
                 formc.FlattenFields();
 
                 pdfDoc.Close();
@@ -299,8 +299,8 @@ namespace BIDVQR
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
                 formc.GetField("qrcode").SetValue(imageStr);
-                formc.GetField("sotk").SetValue("Số TK: " + i.So_Tk, pdfFont, 18);
-                formc.GetField("hotentk").SetValue("Tên TK: " + i.HoTen.ToUpper(), pdfFont, 14);
+                formc.GetField("sotk").SetValue("" + i.So_Tk, pdfFont, 15);
+                formc.GetField("hotentk").SetValue("" + i.HoTen.ToUpper(), pdfFont, 12);
                 formc.FlattenFields();
 
                 pdfDoc.Close();
