@@ -35,6 +35,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tb_tenchutk = new System.Windows.Forms.TextBox();
             this.tb_sotk = new System.Windows.Forms.MaskedTextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -45,10 +47,6 @@
             this.lb_laytemplate = new System.Windows.Forms.LinkLabel();
             this.bt_LoadExcel = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.sttDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -60,12 +58,17 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.sttDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -75,6 +78,7 @@
             this.tabPage1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripProgressBar1
@@ -116,6 +120,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.tb_tenchutk);
             this.groupBox1.Controls.Add(this.tb_sotk);
             this.groupBox1.Controls.Add(this.label1);
@@ -127,6 +133,27 @@
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Tài khoản";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 97);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 13);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Mẫu card";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "tentcard-1mat",
+            "tentcard-2mat",
+            "QRCODEBIDV"});
+            this.comboBox1.Location = new System.Drawing.Point(70, 90);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(169, 21);
+            this.comboBox1.TabIndex = 21;
             // 
             // tb_tenchutk
             // 
@@ -153,7 +180,7 @@
             // 
             // bt_taoma
             // 
-            this.bt_taoma.Location = new System.Drawing.Point(23, 102);
+            this.bt_taoma.Location = new System.Drawing.Point(335, 90);
             this.bt_taoma.Name = "bt_taoma";
             this.bt_taoma.Size = new System.Drawing.Size(96, 23);
             this.bt_taoma.TabIndex = 3;
@@ -177,7 +204,7 @@
             // 
             // bt_xuatFilePdf
             // 
-            this.bt_xuatFilePdf.Location = new System.Drawing.Point(22, 256);
+            this.bt_xuatFilePdf.Location = new System.Drawing.Point(22, 315);
             this.bt_xuatFilePdf.Name = "bt_xuatFilePdf";
             this.bt_xuatFilePdf.Size = new System.Drawing.Size(113, 23);
             this.bt_xuatFilePdf.TabIndex = 2;
@@ -221,28 +248,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(463, 396);
             this.dataGridView1.TabIndex = 0;
             // 
-            // sttDataGridViewTextBoxColumn
-            // 
-            this.sttDataGridViewTextBoxColumn.DataPropertyName = "stt";
-            this.sttDataGridViewTextBoxColumn.HeaderText = "stt";
-            this.sttDataGridViewTextBoxColumn.Name = "sttDataGridViewTextBoxColumn";
-            // 
-            // hoTenDataGridViewTextBoxColumn
-            // 
-            this.hoTenDataGridViewTextBoxColumn.DataPropertyName = "HoTen";
-            this.hoTenDataGridViewTextBoxColumn.HeaderText = "HoTen";
-            this.hoTenDataGridViewTextBoxColumn.Name = "hoTenDataGridViewTextBoxColumn";
-            // 
-            // soTkDataGridViewTextBoxColumn
-            // 
-            this.soTkDataGridViewTextBoxColumn.DataPropertyName = "So_Tk";
-            this.soTkDataGridViewTextBoxColumn.HeaderText = "So_Tk";
-            this.soTkDataGridViewTextBoxColumn.Name = "soTkDataGridViewTextBoxColumn";
-            // 
-            // dataExcelBindingSource
-            // 
-            this.dataExcelBindingSource.DataSource = typeof(BIDVQR.Data_Excel);
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -255,6 +260,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label5);
+            this.splitContainer1.Panel2.Controls.Add(this.comboBox2);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel2.Controls.Add(this.bt_xuatFilePdf);
             this.splitContainer1.Panel2.Controls.Add(this.lb_laytemplate);
@@ -268,7 +275,7 @@
             this.groupBox3.Controls.Add(this.groupBox4);
             this.groupBox3.Controls.Add(this.rb_export1file);
             this.groupBox3.Controls.Add(this.rb_ExportALLfile);
-            this.groupBox3.Location = new System.Drawing.Point(22, 91);
+            this.groupBox3.Location = new System.Drawing.Point(22, 162);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(281, 147);
             this.groupBox3.TabIndex = 3;
@@ -366,6 +373,50 @@
             this.tabControl1.Size = new System.Drawing.Size(800, 428);
             this.tabControl1.TabIndex = 3;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(25, 113);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Mẫu card";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "tentcard-1mat",
+            "tentcard-2mat",
+            "QRCODEBIDV"});
+            this.comboBox2.Location = new System.Drawing.Point(86, 106);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(169, 21);
+            this.comboBox2.TabIndex = 23;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // sttDataGridViewTextBoxColumn
+            // 
+            this.sttDataGridViewTextBoxColumn.DataPropertyName = "stt";
+            this.sttDataGridViewTextBoxColumn.HeaderText = "stt";
+            this.sttDataGridViewTextBoxColumn.Name = "sttDataGridViewTextBoxColumn";
+            // 
+            // hoTenDataGridViewTextBoxColumn
+            // 
+            this.hoTenDataGridViewTextBoxColumn.DataPropertyName = "HoTen";
+            this.hoTenDataGridViewTextBoxColumn.HeaderText = "HoTen";
+            this.hoTenDataGridViewTextBoxColumn.Name = "hoTenDataGridViewTextBoxColumn";
+            // 
+            // soTkDataGridViewTextBoxColumn
+            // 
+            this.soTkDataGridViewTextBoxColumn.DataPropertyName = "So_Tk";
+            this.soTkDataGridViewTextBoxColumn.HeaderText = "So_Tk";
+            this.soTkDataGridViewTextBoxColumn.Name = "soTkDataGridViewTextBoxColumn";
+            // 
+            // dataExcelBindingSource
+            // 
+            this.dataExcelBindingSource.DataSource = typeof(BIDVQR.Data_Excel);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -383,7 +434,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -397,6 +447,7 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataExcelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -435,6 +486,10 @@
         private System.Windows.Forms.TextBox tb_tenfilepdf;
         private System.Windows.Forms.RadioButton rb_export1file;
         private System.Windows.Forms.RadioButton rb_ExportALLfile;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox comboBox2;
     }
 }
 

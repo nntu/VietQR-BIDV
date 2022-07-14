@@ -65,6 +65,10 @@ namespace BIDVQR
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            comboBox1.SelectedIndex = 0;
+
+            comboBox2.SelectedIndex = 0;
+
             tempfolder = System.AppDomain.CurrentDomain.BaseDirectory + "temp";
 
             qrfolder = System.AppDomain.CurrentDomain.BaseDirectory + "QRcode";
@@ -89,6 +93,7 @@ namespace BIDVQR
             tb_tenfilepdf.Text = string.Format("file_{0:dd_MM_yyyy_hhmmss}.pdf", DateTime.Now);
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             this.Text = this.Text + " " + version.ToString();
+
         }
 
         private void bt_taoma_Click(object sender, EventArgs e)
@@ -111,8 +116,13 @@ namespace BIDVQR
                 var imagePath = qrfolder + '\\' + sotk + "-lite.png";
 
                 qrCodeImage.Save(imagePath, ImageFormat.Png);
+                string str = comboBox1.SelectedItem != null ?
+                      comboBox1.GetItemText(comboBox1.SelectedItem) : comboBox1.Text;
 
-                PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
+
+                var templatefile = string.Format("templates\\{0}.pdf", str);
+
+                PdfReader reader = new PdfReader(templatefile);
                 var filepdf = pdffolder + '\\' + tb_tenchutk.Text.ToUpper() + "-" + sotk + ".pdf";
                 MemoryStream baos = new MemoryStream();
                 PdfWriter writer = new PdfWriter(baos);
@@ -125,25 +135,34 @@ namespace BIDVQR
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
-                formc.GetField("qrcode").SetValue(imageStr);
-                formc.GetField("sotk").SetValue("" + sotk, pdfFont, 15);
-                formc.GetField("hotentk").SetValue("" + tb_tenchutk.Text.ToUpper(), pdfFont, 14);
+                if (str != "QRCODEBIDV")
+                {
+                    formc.GetField("qrcode").SetValue(imageStr);
+                    formc.GetField("sotk").SetValue("Số Tài khoản: " + sotk, pdfFont, 12);
+                    formc.GetField("hotentk").SetValue("Tên Tài khoản: " + tb_tenchutk.Text.ToUpper(), pdfFont, 12);
+                }
+                else {
+                    formc.GetField("qrcode").SetValue(imageStr);
+                    formc.GetField("sotk").SetValue("" + sotk, pdfFont, 15);
+                    formc.GetField("hotentk").SetValue("" + tb_tenchutk.Text.ToUpper(), pdfFont, 14);
+
+                }
                 formc.FlattenFields();
 
                 pdfDoc.Close();
                 writer.Close();
                 File.WriteAllBytes(filepdf, baos.ToArray());
 
-                byte[] png = Freeware.Pdf2Png.Convert(baos.ToArray(), 1);
-
-                using (MemoryStream ms = new MemoryStream(png, 0, png.Length))
+                using (var pdfDocument = PdfiumViewer.PdfDocument.Load(filepdf))
                 {
-                    ;
-                    ms.Write(png, 0, png.Length);
-                    var kequa = Image.FromStream(ms, true);//Exception occurs here
-                    pictureBox1.Image = kequa;
-                    kequa.Save(qrfolder + '\\' + sotk + "-full.png", ImageFormat.Png);
+                    var bitmapImage = pdfDocument.Render(0, 300, 300, true);
+                    bitmapImage.Save(qrfolder + '\\' + sotk + "-full.png", ImageFormat.Png);
                 }
+                pictureBox1.Image = Image.FromFile(qrfolder + '\\' + sotk + "-full.png"); ;
+
+
+
+                
 
                 OpenExplorer(filepdf);
                 bt_taoma.Enabled = true;
@@ -252,10 +271,16 @@ namespace BIDVQR
                 });
 
                 toolStripProgressBar1.Maximum = ls.Count();
+
+                string str = comboBox2.SelectedItem != null ?
+                      comboBox2.GetItemText(comboBox2.SelectedItem) : comboBox2.Text;
+
+                
+
                 if (rb_export1file.Checked)
                 {
                     tb_tenfilepdf.Text = string.Format("file_{0:dd_MM_yyyy_hhmmss}.pdf", DateTime.Now);
-                    await Task.Run(() => GetVietQR(progress, ls, tb_tenfilepdf.Text));
+                    await Task.Run(() => GetVietQR(progress, ls, str, tb_tenfilepdf.Text));
                 }
                 else
                 {
@@ -274,7 +299,7 @@ namespace BIDVQR
         /// <param name="progress"></param>
         /// <param name="ds"></param>
         /// <param name="filename"></param>
-        private void GetVietQR(IProgress<int> progress, List<Data_Excel> ds, string filename)
+        private void GetVietQR(IProgress<int> progress, List<Data_Excel> ds, string template, string filename)
         {
             List<byte[]> addpdffile = new List<byte[]>();
 
@@ -288,7 +313,13 @@ namespace BIDVQR
                 Bitmap qrCodeImage = qrCode.GetGraphic(40, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("logobidv.png"));
                 var imagePath = qrfolder + '\\' + i.So_Tk + "-lite.png";
                 qrCodeImage.Save(imagePath, ImageFormat.Png);
-                PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
+
+
+                var templatefile = string.Format("templates\\{0}.pdf", template);
+
+
+                PdfReader reader = new PdfReader(templatefile);
+
                 MemoryStream baos = new MemoryStream();
                 PdfWriter writer = new PdfWriter(baos);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
@@ -298,22 +329,49 @@ namespace BIDVQR
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
-                formc.GetField("qrcode").SetValue(imageStr);
-                formc.GetField("sotk").SetValue("" + i.So_Tk, pdfFont, 15);
-                formc.GetField("hotentk").SetValue("" + i.HoTen.ToUpper(), pdfFont, 12);
+          
+
+                if (template != "QRCODEBIDV")
+                {
+                    formc.GetField("qrcode").SetValue(imageStr);
+                    formc.GetField("sotk").SetValue("Số Tài khoản: " + i.So_Tk, pdfFont, 12);
+                    formc.GetField("hotentk").SetValue("Tên Tài khoản: " + i.HoTen.ToUpper(), pdfFont, 12);
+                }
+                else
+                {
+                    formc.GetField("qrcode").SetValue(imageStr);
+                    formc.GetField("sotk").SetValue("" + i.So_Tk, pdfFont, 15);
+                    formc.GetField("hotentk").SetValue("" + i.HoTen.ToUpper(), pdfFont, 14);
+
+                }
+
+
+
+
                 formc.FlattenFields();
 
                 pdfDoc.Close();
+
+                using (var pdfDocument = PdfiumViewer.PdfDocument.Load(baos))
+                {
+                    var bitmapImage = pdfDocument.Render(0, 300, 300, true);
+                    bitmapImage.Save(qrfolder + '\\' + i.So_Tk + "-full.png", ImageFormat.Png);
+                }
+
+
                 writer.Close();
+
                 addpdffile.Add(baos.ToArray());
 
-                byte[] png = Freeware.Pdf2Png.Convert(baos.ToArray(), 1);
+               
 
-                MemoryStream ms = new MemoryStream(png, 0, png.Length);
-                ms.Write(png, 0, png.Length);
-                var kequa = Image.FromStream(ms, true);//Exception occurs here
+               // MemoryStream ms = new MemoryStream(baos.ToArray(), 0, (int)baos.Length);
+               
+                 
 
-                kequa.Save(qrfolder + '\\' + i.So_Tk + "-full.png", ImageFormat.Png);
+
+              
+
 
                 toolStripStatusLabel1.Text = i.HoTen.ToUpper() + "-" + i.So_Tk;
 
@@ -346,7 +404,9 @@ namespace BIDVQR
                 qrCodeImage.Save(imagePath, ImageFormat.Png);
 
                 var filepdf = pdffolder + '\\' + i.HoTen.Trim().ToUpper() + "-" + i.So_Tk + ".pdf";
-                PdfReader reader = new PdfReader("QRCODEBIDV.pdf");
+                var templatefile = string.Format("templates\\{0}.pdf", comboBox2.SelectedText);
+
+                PdfReader reader = new PdfReader(templatefile);
 
                 MemoryStream baos = new MemoryStream();
                 PdfWriter writer = new PdfWriter(baos);
@@ -357,9 +417,20 @@ namespace BIDVQR
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
-                formc.GetField("qrcode").SetValue(imageStr);
-                formc.GetField("sotk").SetValue("Số TK: " + i.So_Tk, pdfFont, 18);
-                formc.GetField("hotentk").SetValue("Tên TK: " + i.HoTen.ToUpper(), pdfFont, 14);
+               
+                if (comboBox2.SelectedText != "QRCODEBIDV")
+                {
+                    formc.GetField("qrcode").SetValue(imageStr);
+                    formc.GetField("sotk").SetValue("Số Tài khoản: " + i.So_Tk, pdfFont, 12);
+                    formc.GetField("hotentk").SetValue("Tên Tài khoản: " + i.HoTen.ToUpper(), pdfFont, 12);
+                }
+                else
+                {
+                    formc.GetField("qrcode").SetValue(imageStr);
+                    formc.GetField("sotk").SetValue("" + i.So_Tk, pdfFont, 15);
+                    formc.GetField("hotentk").SetValue("" + i.HoTen.ToUpper(), pdfFont, 14);
+
+                }
                 formc.FlattenFields();
 
                 pdfDoc.Close();
@@ -441,6 +512,11 @@ namespace BIDVQR
                     tb_tenfilepdf.Text = tenfile;
                 }
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
