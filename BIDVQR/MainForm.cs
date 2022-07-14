@@ -157,7 +157,9 @@ namespace BIDVQR
 
                 using (var pdfDocument = PdfiumViewer.PdfDocument.Load(filepdf))
                 {
-                    var bitmapImage = pdfDocument.Render(0, 300, 300, true);
+                    var bitmapImage = pdfDocument.Render(0, 900, 900, true);
+                  
+
                     bitmapImage.Save(qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-full.png", ImageFormat.Png);
                 }
                 pictureBox1.Image = Image.FromFile(qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-full.png"); ;
