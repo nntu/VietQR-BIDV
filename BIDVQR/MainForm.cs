@@ -100,6 +100,7 @@ namespace BIDVQR
         {
             bt_taoma.Enabled = false;
             string sotk = tb_sotk.Text.Replace("-", "").Trim();
+            logger.Info(sotk);
             if (sotk.Length == 0)
             {
                 MessageBox.Show("Chưa nhập số tk");
@@ -113,8 +114,8 @@ namespace BIDVQR
                 Bitmap qrCodeImage = qrCode.GetGraphic(100, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("logobidv.png"));
 
                 pictureBox1.Image = qrCodeImage;
-                var imagePath = qrfolder + '\\' + sotk + "-lite.png";
-
+                var imagePath = qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-lite.png";
+                logger.Info(imagePath);
                 qrCodeImage.Save(imagePath, ImageFormat.Png);
                 string str = comboBox1.SelectedItem != null ?
                       comboBox1.GetItemText(comboBox1.SelectedItem) : comboBox1.Text;
@@ -123,7 +124,8 @@ namespace BIDVQR
                 var templatefile = string.Format("templates\\{0}.pdf", str);
 
                 PdfReader reader = new PdfReader(templatefile);
-                var filepdf = pdffolder + '\\' + tb_tenchutk.Text.ToUpper() + "-" + sotk + ".pdf";
+                var filepdf = pdffolder + '\\' + ReplaceInvalidChars( tb_tenchutk.Text.ToUpper().Trim() )+ "-" + ReplaceInvalidChars(sotk) + ".pdf";
+                logger.Info(filepdf);
                 MemoryStream baos = new MemoryStream();
                 PdfWriter writer = new PdfWriter(baos);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
@@ -138,8 +140,8 @@ namespace BIDVQR
                 if (str != "QRCODEBIDV")
                 {
                     formc.GetField("qrcode").SetValue(imageStr);
-                    formc.GetField("sotk").SetValue("Số Tài khoản: " + sotk, pdfFont, 12);
-                    formc.GetField("hotentk").SetValue("Tên Tài khoản: " + tb_tenchutk.Text.ToUpper(), pdfFont, 12);
+                    formc.GetField("sotk").SetValue("Số TK: " + sotk, pdfFont, 12);
+                    formc.GetField("hotentk").SetValue("Tên TK: " + tb_tenchutk.Text.ToUpper(), pdfFont, 12);
                 }
                 else {
                     formc.GetField("qrcode").SetValue(imageStr);
@@ -156,9 +158,9 @@ namespace BIDVQR
                 using (var pdfDocument = PdfiumViewer.PdfDocument.Load(filepdf))
                 {
                     var bitmapImage = pdfDocument.Render(0, 300, 300, true);
-                    bitmapImage.Save(qrfolder + '\\' + sotk + "-full.png", ImageFormat.Png);
+                    bitmapImage.Save(qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-full.png", ImageFormat.Png);
                 }
-                pictureBox1.Image = Image.FromFile(qrfolder + '\\' + sotk + "-full.png"); ;
+                pictureBox1.Image = Image.FromFile(qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-full.png"); ;
 
 
 
@@ -274,8 +276,7 @@ namespace BIDVQR
 
                 string str = comboBox2.SelectedItem != null ?
                       comboBox2.GetItemText(comboBox2.SelectedItem) : comboBox2.Text;
-
-                
+                               
 
                 if (rb_export1file.Checked)
                 {
@@ -284,7 +285,7 @@ namespace BIDVQR
                 }
                 else
                 {
-                    await Task.Run(() => GetVietQR(progress, ls));
+                    await Task.Run(() => GetVietQR(progress, ls, str));
                 }
 
                 toolStripProgressBar1.Visible = false;
@@ -313,7 +314,7 @@ namespace BIDVQR
                 Bitmap qrCodeImage = qrCode.GetGraphic(40, Color.FromArgb(0, 107, 104), Color.White, Color.White, (Bitmap)Bitmap.FromFile("logobidv.png"));
                 var imagePath = qrfolder + '\\' + i.So_Tk + "-lite.png";
                 qrCodeImage.Save(imagePath, ImageFormat.Png);
-
+                
 
                 var templatefile = string.Format("templates\\{0}.pdf", template);
 
@@ -351,14 +352,7 @@ namespace BIDVQR
                 formc.FlattenFields();
 
                 pdfDoc.Close();
-
-                using (var pdfDocument = PdfiumViewer.PdfDocument.Load(baos))
-                {
-                    var bitmapImage = pdfDocument.Render(0, 300, 300, true);
-                    bitmapImage.Save(qrfolder + '\\' + i.So_Tk + "-full.png", ImageFormat.Png);
-                }
-
-
+             
                 writer.Close();
 
                 addpdffile.Add(baos.ToArray());
@@ -390,7 +384,7 @@ namespace BIDVQR
         /// </summary>
         /// <param name="progress"></param>
         /// <param name="ds"></param>
-        private void GetVietQR(IProgress<int> progress, List<Data_Excel> ds)
+        private void GetVietQR(IProgress<int> progress, List<Data_Excel> ds, string template)
         {
             var j = 1;
             foreach (var i in ds)
@@ -404,7 +398,7 @@ namespace BIDVQR
                 qrCodeImage.Save(imagePath, ImageFormat.Png);
 
                 var filepdf = pdffolder + '\\' + i.HoTen.Trim().ToUpper() + "-" + i.So_Tk + ".pdf";
-                var templatefile = string.Format("templates\\{0}.pdf", comboBox2.SelectedText);
+                var templatefile = string.Format("templates\\{0}.pdf", template);
 
                 PdfReader reader = new PdfReader(templatefile);
 
@@ -418,7 +412,7 @@ namespace BIDVQR
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
                
-                if (comboBox2.SelectedText != "QRCODEBIDV")
+                if (template != "QRCODEBIDV")
                 {
                     formc.GetField("qrcode").SetValue(imageStr);
                     formc.GetField("sotk").SetValue("Số Tài khoản: " + i.So_Tk, pdfFont, 12);
@@ -437,12 +431,11 @@ namespace BIDVQR
                 writer.Close();
                 File.WriteAllBytes(filepdf, baos.ToArray());
 
-                byte[] png = Freeware.Pdf2Png.Convert(baos.ToArray(), 1);
-
-                MemoryStream ms = new MemoryStream(png, 0, png.Length);
-                ms.Write(png, 0, png.Length);
-                var kequa = Image.FromStream(ms, true);//Exception occurs here
-                kequa.Save(qrfolder + '\\' + i.So_Tk + "-full.png", ImageFormat.Png);
+                using (var pdfDocument = PdfiumViewer.PdfDocument.Load(filepdf))
+                {
+                    var bitmapImage = pdfDocument.Render(0, 300, 300, true);
+                    bitmapImage.Save(qrfolder + '\\' + i.So_Tk + "-full.png", ImageFormat.Png);
+                }
 
                 toolStripStatusLabel1.Text = i.HoTen.ToUpper() + "-" + i.So_Tk;
 
@@ -485,7 +478,10 @@ namespace BIDVQR
                 return writerMemoryStream.ToArray();
             }
         }
-
+        public string ReplaceInvalidChars(string filename)
+        {
+            return string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+        }
         private void rb_ExportALLfile_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton rb = sender as RadioButton;
