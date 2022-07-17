@@ -6,6 +6,7 @@ using iText.Kernel.Utils;
 using NLog;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using PDFtoImage;
 using QRCoder;
 using QRNapasLib;
 using System;
@@ -130,7 +131,7 @@ namespace BIDVQR
                 PdfWriter writer = new PdfWriter(baos);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
 
-                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
+                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/Roboto-Medium.ttf", PdfEncodings.IDENTITY_H);
 
                 pdfDoc.AddFont(pdfFont);
                 PdfPage page = pdfDoc.GetFirstPage();
@@ -142,6 +143,10 @@ namespace BIDVQR
                     formc.GetField("qrcode").SetValue(imageStr);
                     formc.GetField("sotk").SetValue("Số TK: " + sotk, pdfFont, 12);
                     formc.GetField("hotentk").SetValue("Tên TK: " + tb_tenchutk.Text.ToUpper(), pdfFont, 12);
+                   if( formc.GetField("mota")!= null )   {
+                        formc.GetField("mota").SetValue(tb_mota.Text.Trim(),pdfFont,13);
+                    }
+
                 }
                 else {
                     formc.GetField("qrcode").SetValue(imageStr);
@@ -155,13 +160,13 @@ namespace BIDVQR
                 writer.Close();
                 File.WriteAllBytes(filepdf, baos.ToArray());
 
-                using (var pdfDocument = PdfiumViewer.PdfDocument.Load(filepdf))
-                {
-                    var bitmapImage = pdfDocument.Render(0, 900, 900, true);
-                  
+            
+                
+                   
 
-                    bitmapImage.Save(qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-full.png", ImageFormat.Png);
-                }
+                Conversion.SavePng(qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-full.png", baos.ToArray(), page:0, dpi: 300, withAnnotations: false, withFormFill: false);
+
+                
                 pictureBox1.Image = Image.FromFile(qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-full.png"); ;
 
 
@@ -203,11 +208,13 @@ namespace BIDVQR
                         {
                             var hoten = curRow.GetCell(1) == null ? "" : curRow.GetCell(1).StringCellValue.Trim();
                             var sotk = curRow.GetCell(2) == null ? "" : curRow.GetCell(2).StringCellValue.Trim();
-
+                            var mota = curRow.GetCell(3) == null ? "" : curRow.GetCell(2).StringCellValue.Trim();
                             ds.Add(new Data_Excel()
                             {
                                 HoTen = hoten,
                                 So_Tk = sotk,
+                                Mo_ta = mota
+                                ,stt = i
                             });
                         }
 
@@ -326,7 +333,7 @@ namespace BIDVQR
                 MemoryStream baos = new MemoryStream();
                 PdfWriter writer = new PdfWriter(baos);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
-                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
+                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/Roboto-Medium.ttf", PdfEncodings.IDENTITY_H);
                 pdfDoc.AddFont(pdfFont);
                 PdfPage page = pdfDoc.GetFirstPage();
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
@@ -339,6 +346,10 @@ namespace BIDVQR
                     formc.GetField("qrcode").SetValue(imageStr);
                     formc.GetField("sotk").SetValue("Số TK: " + i.So_Tk, pdfFont, 12);
                     formc.GetField("hotentk").SetValue("Tên TK: " + i.HoTen.ToUpper(), pdfFont, 12);
+                    if (formc.GetField("mota") != null)
+                    {
+                        formc.GetField("mota").SetValue(i.Mo_ta, pdfFont, 13);
+                    }
                 }
                 else
                 {
@@ -407,7 +418,7 @@ namespace BIDVQR
                 MemoryStream baos = new MemoryStream();
                 PdfWriter writer = new PdfWriter(baos);
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
-                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/palab.ttf", PdfEncodings.IDENTITY_H);
+                PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/Roboto-Medium.ttf", PdfEncodings.IDENTITY_H);
                 pdfDoc.AddFont(pdfFont);
                 PdfPage page = pdfDoc.GetFirstPage();
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
@@ -419,6 +430,10 @@ namespace BIDVQR
                     formc.GetField("qrcode").SetValue(imageStr);
                     formc.GetField("sotk").SetValue("Số TK: " + i.So_Tk, pdfFont, 12);
                     formc.GetField("hotentk").SetValue("Tên TK: " + i.HoTen.ToUpper(), pdfFont, 12);
+                    if (formc.GetField("mota") != null)
+                    {
+                        formc.GetField("mota").SetValue(i.Mo_ta, pdfFont, 13);
+                    }
                 }
                 else
                 {
@@ -433,11 +448,7 @@ namespace BIDVQR
                 writer.Close();
                 File.WriteAllBytes(filepdf, baos.ToArray());
 
-                using (var pdfDocument = PdfiumViewer.PdfDocument.Load(filepdf))
-                {
-                    var bitmapImage = pdfDocument.Render(0, 300, 300, true);
-                    bitmapImage.Save(qrfolder + '\\' + i.So_Tk + "-full.png", ImageFormat.Png);
-                }
+                Conversion.SavePng(qrfolder + '\\' + ReplaceInvalidChars(i.So_Tk) + "-full.png", baos.ToArray(), page: 0, dpi: 300, withAnnotations: false, withFormFill: false);
 
                 toolStripStatusLabel1.Text = i.HoTen.ToUpper() + "-" + i.So_Tk;
 
@@ -513,6 +524,16 @@ namespace BIDVQR
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
         {
 
         }

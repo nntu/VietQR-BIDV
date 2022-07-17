@@ -11,5 +11,6 @@ namespace BIDVQR
         public int stt { get; set; }        
         public string HoTen { get; set; }
         public string So_Tk { get; set; }
+        public string Mo_ta { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using PDFiumSharp;
- 
+using PDFtoImage;
 using QRNapasLib;
 using System;
 using System.Collections.Generic;
@@ -25,9 +25,14 @@ namespace test
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
-          
-		}
+            using (var inputStream = new FileStream(@"NGUYEN NGOC TU-74110000192944.pdf", FileMode.Open, FileAccess.Read)) { 
+                var page = 1;
+                var dpi = 300;
+
+                     Conversion.SavePng("test.png", inputStream, page: page - 1, dpi: dpi, withAnnotations: false, withFormFill: false);
+
+            }
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
