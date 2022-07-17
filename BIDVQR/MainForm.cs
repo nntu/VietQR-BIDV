@@ -337,8 +337,8 @@ namespace BIDVQR
                 if (template != "QRCODEBIDV")
                 {
                     formc.GetField("qrcode").SetValue(imageStr);
-                    formc.GetField("sotk").SetValue("Số Tài khoản: " + i.So_Tk, pdfFont, 12);
-                    formc.GetField("hotentk").SetValue("Tên Tài khoản: " + i.HoTen.ToUpper(), pdfFont, 12);
+                    formc.GetField("sotk").SetValue("Số TK: " + i.So_Tk, pdfFont, 12);
+                    formc.GetField("hotentk").SetValue("Tên TK: " + i.HoTen.ToUpper(), pdfFont, 12);
                 }
                 else
                 {
@@ -417,8 +417,8 @@ namespace BIDVQR
                 if (template != "QRCODEBIDV")
                 {
                     formc.GetField("qrcode").SetValue(imageStr);
-                    formc.GetField("sotk").SetValue("Số Tài khoản: " + i.So_Tk, pdfFont, 12);
-                    formc.GetField("hotentk").SetValue("Tên Tài khoản: " + i.HoTen.ToUpper(), pdfFont, 12);
+                    formc.GetField("sotk").SetValue("Số TK: " + i.So_Tk, pdfFont, 12);
+                    formc.GetField("hotentk").SetValue("Tên TK: " + i.HoTen.ToUpper(), pdfFont, 12);
                 }
                 else
                 {
