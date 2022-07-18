@@ -35,6 +35,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tb_mota = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tb_tenchutk = new System.Windows.Forms.TextBox();
@@ -47,6 +49,7 @@
             this.lb_laytemplate = new System.Windows.Forms.LinkLabel();
             this.bt_LoadExcel = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Mo_ta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -60,9 +63,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tb_mota = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.Mo_ta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sttDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -138,6 +138,22 @@
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Tài khoản";
+            // 
+            // tb_mota
+            // 
+            this.tb_mota.Location = new System.Drawing.Point(184, 104);
+            this.tb_mota.Name = "tb_mota";
+            this.tb_mota.Size = new System.Drawing.Size(247, 20);
+            this.tb_mota.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 107);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(34, 13);
+            this.label6.TabIndex = 24;
+            this.label6.Text = "Mô tả";
             // 
             // label4
             // 
@@ -255,6 +271,12 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(463, 396);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // Mo_ta
+            // 
+            this.Mo_ta.DataPropertyName = "Mo_ta";
+            this.Mo_ta.HeaderText = "Mo_ta";
+            this.Mo_ta.Name = "Mo_ta";
             // 
             // splitContainer1
             // 
@@ -403,28 +425,6 @@
             this.tabControl1.Size = new System.Drawing.Size(800, 428);
             this.tabControl1.TabIndex = 3;
             // 
-            // tb_mota
-            // 
-            this.tb_mota.Location = new System.Drawing.Point(184, 104);
-            this.tb_mota.Name = "tb_mota";
-            this.tb_mota.Size = new System.Drawing.Size(247, 20);
-            this.tb_mota.TabIndex = 2;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 107);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 13);
-            this.label6.TabIndex = 24;
-            this.label6.Text = "Mô tả";
-            // 
-            // Mo_ta
-            // 
-            this.Mo_ta.DataPropertyName = "Mo_ta";
-            this.Mo_ta.HeaderText = "Mo_ta";
-            this.Mo_ta.Name = "Mo_ta";
-            // 
             // sttDataGridViewTextBoxColumn
             // 
             this.sttDataGridViewTextBoxColumn.DataPropertyName = "stt";
@@ -456,7 +456,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "Tạo QR BIDV - tunn1@bidv.com.vn - Ver: ";
+            this.Text = "a";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
