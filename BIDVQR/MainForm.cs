@@ -208,7 +208,7 @@ namespace BIDVQR
                         {
                             var hoten = curRow.GetCell(1) == null ? "" : curRow.GetCell(1).StringCellValue.Trim();
                             var sotk = curRow.GetCell(2) == null ? "" : curRow.GetCell(2).StringCellValue.Trim();
-                            var mota = curRow.GetCell(3) == null ? "" : curRow.GetCell(2).StringCellValue.Trim();
+                            var mota = curRow.GetCell(3) == null ? "" : curRow.GetCell(3).StringCellValue.Trim();
                             ds.Add(new Data_Excel()
                             {
                                 HoTen = hoten,
