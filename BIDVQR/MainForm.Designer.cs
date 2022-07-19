@@ -63,10 +63,16 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tb_chinhanh = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tb_canbolienhe = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.sttDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Chi_Nhanh = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Can_Bo_Lien_He = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -123,6 +129,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.tb_canbolienhe);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.tb_chinhanh);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.tb_mota);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label4);
@@ -134,7 +144,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(8, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(454, 198);
+            this.groupBox1.Size = new System.Drawing.Size(454, 290);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Tài khoản";
@@ -203,7 +213,7 @@
             // 
             // bt_taoma
             // 
-            this.bt_taoma.Location = new System.Drawing.Point(335, 150);
+            this.bt_taoma.Location = new System.Drawing.Point(335, 241);
             this.bt_taoma.Name = "bt_taoma";
             this.bt_taoma.Size = new System.Drawing.Size(96, 23);
             this.bt_taoma.TabIndex = 3;
@@ -264,7 +274,9 @@
             this.sttDataGridViewTextBoxColumn,
             this.hoTenDataGridViewTextBoxColumn,
             this.soTkDataGridViewTextBoxColumn,
-            this.Mo_ta});
+            this.Mo_ta,
+            this.Chi_Nhanh,
+            this.Can_Bo_Lien_He});
             this.dataGridView1.DataSource = this.dataExcelBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
@@ -425,6 +437,38 @@
             this.tabControl1.Size = new System.Drawing.Size(800, 428);
             this.tabControl1.TabIndex = 3;
             // 
+            // tb_chinhanh
+            // 
+            this.tb_chinhanh.Location = new System.Drawing.Point(184, 130);
+            this.tb_chinhanh.Name = "tb_chinhanh";
+            this.tb_chinhanh.Size = new System.Drawing.Size(247, 20);
+            this.tb_chinhanh.TabIndex = 25;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 137);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(55, 13);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "Chi nhánh";
+            // 
+            // tb_canbolienhe
+            // 
+            this.tb_canbolienhe.Location = new System.Drawing.Point(184, 165);
+            this.tb_canbolienhe.Name = "tb_canbolienhe";
+            this.tb_canbolienhe.Size = new System.Drawing.Size(247, 20);
+            this.tb_canbolienhe.TabIndex = 27;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 172);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(81, 13);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Cán bộ Liên Hệ";
+            // 
             // sttDataGridViewTextBoxColumn
             // 
             this.sttDataGridViewTextBoxColumn.DataPropertyName = "stt";
@@ -447,6 +491,18 @@
             // 
             this.dataExcelBindingSource.DataSource = typeof(BIDVQR.Data_Excel);
             // 
+            // Chi_Nhanh
+            // 
+            this.Chi_Nhanh.DataPropertyName = "Chi_Nhanh";
+            this.Chi_Nhanh.HeaderText = "Chi_Nhanh";
+            this.Chi_Nhanh.Name = "Chi_Nhanh";
+            // 
+            // Can_Bo_Lien_He
+            // 
+            this.Can_Bo_Lien_He.DataPropertyName = "Can_Bo_Lien_He";
+            this.Can_Bo_Lien_He.HeaderText = "Can_Bo_Lien_He";
+            this.Can_Bo_Lien_He.Name = "Can_Bo_Lien_He";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -456,7 +512,8 @@
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "a";
+            this.Text = "BIDVQR - tunn1@bidv.com.vn - Ver: ";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -522,6 +579,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn hoTenDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn soTkDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Mo_ta;
+        private System.Windows.Forms.TextBox tb_canbolienhe;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox tb_chinhanh;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Chi_Nhanh;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Can_Bo_Lien_He;
     }
 }
 

@@ -25,6 +25,7 @@ namespace BIDVQR
 {
     public partial class MainForm : Form
     {
+        private Config _cf;
         private string tempfolder;
         private string qrfolder;
         private string pdffolder;
@@ -66,9 +67,13 @@ namespace BIDVQR
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = 0;
+            _cf = Config.Load();
+            tb_chinhanh.Text = _cf.ChiNhanh;
+            tb_canbolienhe.Text = _cf.CanBoPhuTrach;
 
-            comboBox2.SelectedIndex = 0;
+            comboBox1.SelectedIndex = _cf.template;
+
+            comboBox2.SelectedIndex = _cf.template;
 
             tempfolder = System.AppDomain.CurrentDomain.BaseDirectory + "temp";
 
@@ -147,6 +152,16 @@ namespace BIDVQR
                         formc.GetField("mota").SetValue(tb_mota.Text.Trim(),pdfFont,13);
                     }
 
+                    if (formc.GetField("chinhanh") != null)
+                    {
+                        formc.GetField("chinhanh").SetValue(tb_chinhanh.Text.Trim(), pdfFont, 10);
+                    }
+                    if (formc.GetField("canbolienhe") != null)
+                    {
+                        formc.GetField("canbolienhe").SetValue(tb_canbolienhe.Text.Trim(), pdfFont, 10);
+                    }
+
+
                 }
                 else {
                     formc.GetField("qrcode").SetValue(imageStr);
@@ -168,10 +183,7 @@ namespace BIDVQR
 
                 
                 pictureBox1.Image = Image.FromFile(qrfolder + '\\' + ReplaceInvalidChars(sotk) + "-full.png"); ;
-
-
-
-                
+                            
 
                 OpenExplorer(filepdf);
                 bt_taoma.Enabled = true;
@@ -209,12 +221,20 @@ namespace BIDVQR
                             var hoten = curRow.GetCell(1) == null ? "" : curRow.GetCell(1).StringCellValue.Trim();
                             var sotk = curRow.GetCell(2) == null ? "" : curRow.GetCell(2).StringCellValue.Trim();
                             var mota = curRow.GetCell(3) == null ? "" : curRow.GetCell(3).StringCellValue.Trim();
+
+                            var Chi_Nhanh = curRow.GetCell(4) == null ? "" : curRow.GetCell(4).StringCellValue.Trim();
+                            var CBlhe = curRow.GetCell(5) == null ? "" : curRow.GetCell(5).StringCellValue.Trim();
+
+
+
                             ds.Add(new Data_Excel()
                             {
                                 HoTen = hoten,
                                 So_Tk = sotk,
                                 Mo_ta = mota
-                                ,stt = i
+                                ,stt = i,
+                                Can_Bo_Lien_He = CBlhe,
+                                Chi_Nhanh= Chi_Nhanh,
                             });
                         }
 
@@ -350,6 +370,14 @@ namespace BIDVQR
                     {
                         formc.GetField("mota").SetValue(i.Mo_ta, pdfFont, 13);
                     }
+                    if (formc.GetField("chinhanh") != null)
+                    {
+                        formc.GetField("chinhanh").SetValue(i.Chi_Nhanh.Trim(), pdfFont, 10);
+                    }
+                    if (formc.GetField("canbolienhe") != null)
+                    {
+                        formc.GetField("canbolienhe").SetValue(i.Can_Bo_Lien_He.Trim(), pdfFont, 10);
+                    }
                 }
                 else
                 {
@@ -434,6 +462,15 @@ namespace BIDVQR
                     {
                         formc.GetField("mota").SetValue(i.Mo_ta, pdfFont, 13);
                     }
+                    if (formc.GetField("chinhanh") != null)
+                    {
+                        formc.GetField("chinhanh").SetValue(i.Chi_Nhanh.Trim(), pdfFont, 10);
+                    }
+                    if (formc.GetField("canbolienhe") != null)
+                    {
+                        formc.GetField("canbolienhe").SetValue(i.Can_Bo_Lien_He.Trim(), pdfFont, 10);
+                    }
+
                 }
                 else
                 {
@@ -536,6 +573,14 @@ namespace BIDVQR
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _cf.CanBoPhuTrach = tb_canbolienhe.Text;
+            _cf.ChiNhanh = tb_chinhanh.Text;
+            _cf.template = comboBox1.SelectedIndex;
+            _cf.Save();
         }
     }
 }

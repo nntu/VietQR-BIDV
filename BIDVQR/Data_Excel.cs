@@ -12,5 +12,9 @@ namespace BIDVQR
         public string HoTen { get; set; }
         public string So_Tk { get; set; }
         public string Mo_ta { get; set; }
+
+        public string Chi_Nhanh { get; set; }
+        public string Can_Bo_Lien_He { get; set; }
+
     }
 }
