@@ -67,12 +67,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.tb_canbolienhe = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.Chi_Nhanh = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Can_Bo_Lien_He = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sttDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hoTenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.soTkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataExcelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.Chi_Nhanh = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Can_Bo_Lien_He = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -190,7 +190,7 @@
             // 
             // tb_tenchutk
             // 
-            this.tb_tenchutk.Location = new System.Drawing.Point(184, 78);
+            this.tb_tenchutk.Location = new System.Drawing.Point(184, 79);
             this.tb_tenchutk.Name = "tb_tenchutk";
             this.tb_tenchutk.Size = new System.Drawing.Size(247, 20);
             this.tb_tenchutk.TabIndex = 1;
@@ -216,7 +216,7 @@
             this.bt_taoma.Location = new System.Drawing.Point(335, 241);
             this.bt_taoma.Name = "bt_taoma";
             this.bt_taoma.Size = new System.Drawing.Size(96, 23);
-            this.bt_taoma.TabIndex = 3;
+            this.bt_taoma.TabIndex = 5;
             this.bt_taoma.Text = "Tạo QRCode";
             this.bt_taoma.UseVisualStyleBackColor = true;
             this.bt_taoma.Click += new System.EventHandler(this.bt_taoma_Click);
@@ -439,10 +439,10 @@
             // 
             // tb_chinhanh
             // 
-            this.tb_chinhanh.Location = new System.Drawing.Point(184, 130);
+            this.tb_chinhanh.Location = new System.Drawing.Point(184, 133);
             this.tb_chinhanh.Name = "tb_chinhanh";
             this.tb_chinhanh.Size = new System.Drawing.Size(247, 20);
-            this.tb_chinhanh.TabIndex = 25;
+            this.tb_chinhanh.TabIndex = 3;
             // 
             // label7
             // 
@@ -455,10 +455,10 @@
             // 
             // tb_canbolienhe
             // 
-            this.tb_canbolienhe.Location = new System.Drawing.Point(184, 165);
+            this.tb_canbolienhe.Location = new System.Drawing.Point(184, 164);
             this.tb_canbolienhe.Name = "tb_canbolienhe";
             this.tb_canbolienhe.Size = new System.Drawing.Size(247, 20);
-            this.tb_canbolienhe.TabIndex = 27;
+            this.tb_canbolienhe.TabIndex = 4;
             // 
             // label8
             // 
@@ -468,6 +468,18 @@
             this.label8.Size = new System.Drawing.Size(81, 13);
             this.label8.TabIndex = 28;
             this.label8.Text = "Cán bộ Liên Hệ";
+            // 
+            // Chi_Nhanh
+            // 
+            this.Chi_Nhanh.DataPropertyName = "Chi_Nhanh";
+            this.Chi_Nhanh.HeaderText = "Chi_Nhanh";
+            this.Chi_Nhanh.Name = "Chi_Nhanh";
+            // 
+            // Can_Bo_Lien_He
+            // 
+            this.Can_Bo_Lien_He.DataPropertyName = "Can_Bo_Lien_He";
+            this.Can_Bo_Lien_He.HeaderText = "Can_Bo_Lien_He";
+            this.Can_Bo_Lien_He.Name = "Can_Bo_Lien_He";
             // 
             // sttDataGridViewTextBoxColumn
             // 
@@ -490,18 +502,6 @@
             // dataExcelBindingSource
             // 
             this.dataExcelBindingSource.DataSource = typeof(BIDVQR.Data_Excel);
-            // 
-            // Chi_Nhanh
-            // 
-            this.Chi_Nhanh.DataPropertyName = "Chi_Nhanh";
-            this.Chi_Nhanh.HeaderText = "Chi_Nhanh";
-            this.Chi_Nhanh.Name = "Chi_Nhanh";
-            // 
-            // Can_Bo_Lien_He
-            // 
-            this.Can_Bo_Lien_He.DataPropertyName = "Can_Bo_Lien_He";
-            this.Can_Bo_Lien_He.HeaderText = "Can_Bo_Lien_He";
-            this.Can_Bo_Lien_He.Name = "Can_Bo_Lien_He";
             // 
             // MainForm
             // 
