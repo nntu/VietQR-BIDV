@@ -139,7 +139,12 @@ namespace BIDVQR
                 PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/Roboto-Medium.ttf", PdfEncodings.IDENTITY_H);
 
                 pdfDoc.AddFont(pdfFont);
-                PdfPage page = pdfDoc.GetFirstPage();
+
+                PdfFont pdfFontBoldItalic = PdfFontFactory.CreateFont("fonts/Roboto-BoldItalic.ttf", PdfEncodings.IDENTITY_H);
+
+                pdfDoc.AddFont(pdfFontBoldItalic);
+
+              //  PdfPage page = pdfDoc.GetFirstPage();
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
                 byte[] byteArray = File.ReadAllBytes(imagePath);
                 var imageStr = Convert.ToBase64String(byteArray);
@@ -154,7 +159,7 @@ namespace BIDVQR
 
                     if (formc.GetField("chinhanh") != null)
                     {
-                        formc.GetField("chinhanh").SetValue(tb_chinhanh.Text.Trim(), pdfFont, 10);
+                        formc.GetField("chinhanh").SetValue(tb_chinhanh.Text.Trim(), pdfFontBoldItalic, 10);
                     }
                     if (formc.GetField("canbolienhe") != null)
                     {
@@ -284,7 +289,7 @@ namespace BIDVQR
 
         private async void bt_xuatFilePdf_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.RowCount == 1)
+            if (dataGridView1.RowCount <= 1)
             {
                 MessageBox.Show("Chưa Nhập Danh sách Tài khoản");
             }
@@ -355,6 +360,11 @@ namespace BIDVQR
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
                 PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/Roboto-Medium.ttf", PdfEncodings.IDENTITY_H);
                 pdfDoc.AddFont(pdfFont);
+                PdfFont pdfFontBoldItalic = PdfFontFactory.CreateFont("fonts/Roboto-BoldItalic.ttf", PdfEncodings.IDENTITY_H);
+
+                pdfDoc.AddFont(pdfFontBoldItalic);
+
+
                 PdfPage page = pdfDoc.GetFirstPage();
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
                 byte[] byteArray = File.ReadAllBytes(imagePath);
@@ -372,7 +382,7 @@ namespace BIDVQR
                     }
                     if (formc.GetField("chinhanh") != null)
                     {
-                        formc.GetField("chinhanh").SetValue(i.Chi_Nhanh.Trim(), pdfFont, 10);
+                        formc.GetField("chinhanh").SetValue(i.Chi_Nhanh.Trim(), pdfFontBoldItalic, 10);
                     }
                     if (formc.GetField("canbolienhe") != null)
                     {
@@ -448,6 +458,12 @@ namespace BIDVQR
                 PdfDocument pdfDoc = new PdfDocument(reader, writer);
                 PdfFont pdfFont = PdfFontFactory.CreateFont("fonts/Roboto-Medium.ttf", PdfEncodings.IDENTITY_H);
                 pdfDoc.AddFont(pdfFont);
+
+                PdfFont pdfFontBoldItalic = PdfFontFactory.CreateFont("fonts/Roboto-BoldItalic.ttf", PdfEncodings.IDENTITY_H);
+
+                pdfDoc.AddFont(pdfFontBoldItalic);
+
+
                 PdfPage page = pdfDoc.GetFirstPage();
                 PdfAcroForm formc = PdfAcroForm.GetAcroForm(pdfDoc, true);
                 byte[] byteArray = File.ReadAllBytes(imagePath);
@@ -464,7 +480,7 @@ namespace BIDVQR
                     }
                     if (formc.GetField("chinhanh") != null)
                     {
-                        formc.GetField("chinhanh").SetValue(i.Chi_Nhanh.Trim(), pdfFont, 10);
+                        formc.GetField("chinhanh").SetValue(i.Chi_Nhanh.Trim(), pdfFontBoldItalic, 10);
                     }
                     if (formc.GetField("canbolienhe") != null)
                     {
@@ -581,6 +597,11 @@ namespace BIDVQR
             _cf.ChiNhanh = tb_chinhanh.Text;
             _cf.template = comboBox1.SelectedIndex;
             _cf.Save();
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
